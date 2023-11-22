@@ -1,0 +1,44 @@
+ul li .nav-link {
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 24px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+ul li .nav-link:hover {
+    color: white;
+    text-shadow: 0 0 3px #ffffff;
+
+}
+
+ul li .nav-link:active {
+    color: white;
+    text-shadow: 0 0 3px #ffffff;
+}
+
+ul li .nav-link:focus {
+    color: white;
+    text-shadow: 0 0 3px #ffffff;
+}
+
+div#root {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+  /* Allow the main content to grow and push the footer to the bottom */
+}
+
+footer {
+  background-color: #0c84a4;
+  width: 100%;
+  position: relative;
+  clear: both;
+}

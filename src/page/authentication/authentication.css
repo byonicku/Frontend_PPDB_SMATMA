@@ -1,0 +1,44 @@
+.gradient {
+    background: rgb(12, 132, 164);
+    background: linear-gradient(180deg, rgba(12, 132, 164, 1) 60%, rgba(255, 214, 164, 1) 85%);
+}
+
+Link {
+    text-decoration: none;
+}
+
+.custom-btn {
+    background-color: #0C84A4;
+    /* Background color */
+    color: #FFFFFF;
+    /* Text color */
+    font-size: 24px;
+    transition: background-color 0.3s;
+    /* Hover animation */
+}
+
+.custom-btn:hover {
+    color: #FFFFFF;
+    background-color: #0A6D8C;
+}
+
+.custom-btn:focus {
+    color: #FFFFFF;
+    background-color: #0A6D8C;
+}
+
+.custom-btn:active {
+    color: #FFFFFF;
+    background-color: #0C84A4;
+}
+
+@media (max-width: 768px) {
+    .col-md-6 {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .custom-btn {
+        font-size: 20px;
+    }
+}
