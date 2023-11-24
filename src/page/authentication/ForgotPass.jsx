@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './authentication.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import Gradient from '../../components/authentication/gradient';
 
 const ForgotPass = () => {
     const navigate = useNavigate();
@@ -39,6 +42,7 @@ const ForgotPass = () => {
     return (
         <div className="row" style={{ minHeight: '100vh' }}>
             <div className="col-md-6" style={{ paddingTop: '72px', paddingBottom: '40px' }}>
+            <Link to="/login" className='nav-link ps-5'><FontAwesomeIcon icon={faArrowLeft} className='icon text-black'/></Link>
                 <div className="d-flex flex-column py-5">
                     <h1 className="py-5 align-self-center">Forgot Password</h1>
                     {error && (
@@ -80,17 +84,7 @@ const ForgotPass = () => {
                     </form>
                 </div>
             </div>
-            <div className="col-md-6 gradient" style={{ paddingTop: '200px', paddingBottom: '40px' }}>
-                <div className="d-flex flex-column py-5">
-                    <h1 style={{ color: '#FFFFFF', fontSize: '86px' }} className="text-center">HELLO</h1>
-                    <p style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '200', maxWidth: '300px' }} className="align-self-center text-center pb-5">
-                        Silahkan masuk menggunakan akun anda
-                    </p>
-                    <a href="#" style={{ color: '#FFFFFF', border: '1px solid #FFFFFF', fontSize: '30px', padding: '10px' }} className="align-self-center px-5">
-                        Sign In
-                    </a>
-                </div>
-            </div>
+            <Gradient text={"Forgot Password"} tagline={"Silahkan masukan email anda untuk reset password"} use={"Reset!"}/>
         </div>
     );
 };

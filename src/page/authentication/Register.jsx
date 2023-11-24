@@ -1,18 +1,46 @@
 import React, { useState } from 'react';
 import './authentication.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Gradient from '../../components/authentication/gradient';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { toast } from "sonner";
+
+import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import { API_URL } from '../../api/APIConstant';
 
 const Register = () => {
     const navigate = useNavigate();
     const [showPass, setShowPass] = useState(false);
+    const [error, setError] = useState(null);
 
-    const handleSubmit = (e) => {
+    const registerMutation = useMutation(
+        {
+            mutationFn: (data) => axios.post(`${API_URL}/register`, data),
+            onSuccess: () => {
+                toast.success("Register berhasil!");
+                setTimeout(() => {
+                    navigate("/login");
+                }, 1000);
+            },
+            onError: (error) => {
+                setError(error.response.data.message);
+                toast.error(error.message);
+            }
+        }
+    );
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(e.target.nama_lengkap.value);
-        console.log(e.target.email.value);
-        console.log(e.target.username.value);
-        console.log(e.target.password.value);
-        navigate('/login');
+
+        const formData = new FormData(e.target);    
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        await registerMutation.mutateAsync(data);    
     }
 
     const handleToggleShowPass = () => {
@@ -20,10 +48,24 @@ const Register = () => {
     }
 
     return (
-        <div className="row" style={{ minHeight: '100vh' }}>
-            <div className="col-md-6" style={{ paddingTop: '72px', paddingBottom: '40px' }}>
+        <div className="row" style={{ minHeight: '100vh', overflowY: 'hidden' }}>
+            <div className="col-md-6" style={{ paddingTop: '64px', paddingBottom: '40px' }}>
+            <Link to="/home" className='nav-link ps-5'><FontAwesomeIcon icon={faHome} className='icon text-black'/></Link>
                 <div className="d-flex flex-column py-5">
-                    <h1 className="py-5 align-self-center">Register</h1>
+                    <h1 className="py-3 align-self-center">Register</h1>
+                    {error && (
+                        <div className="alert alert-danger mx-auto" role="alert">
+                            {typeof error === 'string' ? (
+                                error
+                            ) : (
+                                <ul style={{ listStyle: 'none', paddingLeft: '0' }}>
+                                    {Object.entries(error).map(([key, value]) => (
+                                        <li key={key}>{`${value}`}</li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3 pt-3 w-75 mx-auto">
                             <label htmlFor="nama_lengkap" className='fw-bold'>Nama Lengkap (Sesuai Akte)</label>
@@ -46,22 +88,16 @@ const Register = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="text-center pt-4">
+                        <div className="mb-3 w-75 mx-auto text-end">
+                            <Link to="/login" style={{ color: '#494747' }}>Sudah punya akun?</Link>
+                        </div>
+                        <div className="pt-4 text-center">
                             <button type="submit" className="btn custom-btn px-4">Register</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div className="col-md-6 gradient" style={{ paddingTop: '128px', paddingBottom: '40px' }}>
-                <div className="d-flex flex-column py-5">
-                    <h1 style={{ color: '#FFFFFF', fontSize: '86px', maxWidth: '450px' }} className="align-self-center text-center pb-5">
-                        WELCOME TO SMATMA
-                    </h1>
-                    <a href="#" style={{ color: '#FFFFFF', border: '1px solid #FFFFFF', fontSize: '30px', padding: '10px' }} className="align-self-center px-5">
-                        Register
-                    </a>
-                </div>
-            </div>
+            <Gradient text={"WELCOME"} tagline={"Silahkan daftar menggunakan data diri anda"} use={"Register"}/>
         </div>
     );
 }

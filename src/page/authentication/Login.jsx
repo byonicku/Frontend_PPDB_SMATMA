@@ -1,32 +1,72 @@
 import React, { useState } from 'react';
 import './authentication.css';
 import { useNavigate, Link } from 'react-router-dom';
+import Gradient from '../../components/authentication/gradient';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { toast } from "sonner";
+
+import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import { API_URL } from '../../api/APIConstant';
 
 const Login = () => {
     const navigate = useNavigate();
     const [showPass, setShowPass] = useState(false);
+    const [error, setError] = useState(null);
 
-    const handleSubmit = (e) => {
+    const loginQuery = useMutation(
+        {
+            mutationFn: (data) => axios.post(`${API_URL}/login`, data),
+            onSuccess: (data) => {
+                console.log(data);
+                localStorage.setItem('token', data.data.access_token);
+                localStorage.setItem('user', JSON.stringify(data.data.data));
+                toast.success("Login berhasil!");
+                setTimeout(() => {
+                    navigate("/home");
+                }, 1000);
+            },
+            onError: (error) => {
+                setError(error.response.data.message);
+                toast.error(error.message);
+            }
+        }
+    );
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(e.target.username.value);
-        console.log(e.target.password.value);
-        navigate('/home');
+        
+        const formData = new FormData(e.target);    
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        await loginQuery.mutateAsync(data);
     }
 
     const handleToggleShowPass = () => {
         setShowPass(!showPass);
     }
 
-    const error = false; // Set the error state here
-
     return (
         <div className="row" style={{ minHeight: '100vh' }}>
             <div className="col-md-6" style={{ paddingTop: '72px', paddingBottom: '40px' }}>
+                <Link to="/home" className='nav-link ps-5'><FontAwesomeIcon icon={faHome} className='icon text-black'/></Link>
                 <div className="d-flex flex-column py-5">
                     <h1 className="py-5 align-self-center">Sign In</h1>
                     {error && (
-                        <div className="alert alert-warning align-self-center" role="alert">
-                            {error}
+                        <div className="alert alert-danger mx-auto" role="alert">
+                            {typeof error === 'string' ? (
+                                error
+                            ) : (
+                                <ul style={{ listStyle: 'none', paddingLeft: '0' }}>
+                                    {Object.entries(error).map(([key, value]) => (
+                                        <li key={key}>{`${value}`}</li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                     )}
                     <form onSubmit={handleSubmit}>
@@ -44,7 +84,7 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="mb-3 w-75 mx-auto text-end">
-                            <a href="/register" style={{ color: '#494747' }}>Tidak punya akun?</a>
+                            <Link to="/register" style={{ color: '#494747' }}>Tidak punya akun?</Link>
                         </div>
                         <div className="text-center" style={{ paddingTop: '100px', paddingBottom: '20px' }}>
                             <Link to="/forgotpassword" style={{ fontSize: '18px', color: 'dimgray' }}>Forgot your password?</Link>
@@ -55,17 +95,7 @@ const Login = () => {
                     </form>
                 </div>
             </div>
-            <div className="col-md-6 gradient" style={{ paddingTop: '200px', paddingBottom: '40px' }}>
-                <div className="d-flex flex-column py-5">
-                    <h1 style={{ color: '#FFFFFF', fontSize: '86px' }} className="text-center">HELLO</h1>
-                    <p style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '200', maxWidth: '300px' }} className="align-self-center text-center pb-5">
-                        Silahkan masuk menggunakan akun anda
-                    </p>
-                    <a href="#" style={{ color: '#FFFFFF', border: '1px solid #FFFFFF', fontSize: '30px', padding: '10px' }} className="align-self-center px-5">
-                        Sign In
-                    </a>
-                </div>
-            </div>
+            <Gradient text={"HELLO"} tagline={"Silahkan masuk menggunakan akun anda"} use={"Sign In"}/>
         </div>
     );
 };

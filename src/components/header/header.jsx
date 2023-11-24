@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../../assets/logo_full.png';
 import UserState from '../../constant/user_state.jsx'
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { toast } from "sonner";
 
-const Header = ({ state }) => {
+import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import { API_URL } from '../../api/APIConstant';
+import UserHandler, { isAuthenticated } from '../../api/UserHandler.jsx';
+
+const Header = () => {
+    const [state, setState] = useState(isAuthenticated() ? UserState.USER : UserState.GUEST);
+
+    const navigate = useNavigate();
+    const logoutMutation = useMutation(
+        {
+            mutationFn: () => axios.post(`${API_URL}/logout`, {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            }),
+            onSuccess: () => {
+                toast.success("Logout berhasil!");
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                setState(UserState.GUEST);
+                setTimeout(() => {
+                    navigate("/home");
+                }, 1000);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+            }
+        }
+    );
+
+    const handleLogout = async (e) => {
+        await logoutMutation.mutateAsync();
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark mb-5" style={{ backgroundColor: '#0c84a4' }}>
             <div className="container">
@@ -62,7 +97,7 @@ const Header = ({ state }) => {
                                     Login
                                 </a>
                             ) : (
-                                <a href="/logout" className="btn btn-primary rounded-pill px-4 border-0"
+                                <a onClick={handleLogout} className="btn btn-primary rounded-pill px-4 border-0"
                                     style={{ backgroundColor: '#FFA4A4', color: 'black', fontSize: '24px', fontWeight: 500, marginLeft: 10, marginTop: 2}}>
                                     Logout
                                 </a>
