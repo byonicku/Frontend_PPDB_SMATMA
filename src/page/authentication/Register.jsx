@@ -14,12 +14,13 @@ const Register = () => {
     const navigate = useNavigate();
     const [showPass, setShowPass] = useState(false);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const registerMutation = useMutation(
         {
             mutationFn: (data) => axios.post(`${API_URL}/register`, data),
             onSuccess: () => {
-                toast.success("Register berhasil!");
+                toast.success("Register berhasil! Check email anda untuk verifikasi akun.");
                 setTimeout(() => {
                     navigate("/login");
                 }, 1000);
@@ -27,6 +28,10 @@ const Register = () => {
             onError: (error) => {
                 setError(error.response.data.message);
                 toast.error(error.message);
+                setLoading(false);
+            },
+            onMutate: () => {
+                setLoading(true);
             }
         }
     );
@@ -40,7 +45,7 @@ const Register = () => {
             data[key] = value;
         });
 
-        await registerMutation.mutateAsync(data);    
+        await registerMutation.mutateAsync(data);
     }
 
     const handleToggleShowPass = () => {
@@ -92,7 +97,7 @@ const Register = () => {
                             <Link to="/login" style={{ color: '#494747' }}>Sudah punya akun?</Link>
                         </div>
                         <div className="pt-4 text-center">
-                            <button type="submit" className="btn custom-btn px-4">Register</button>
+                            <button type="submit" className="btn custom-btn px-4" disabled={loading}>{loading ? 'Registering...' : 'Register'}</button>
                         </div>
                     </form>
                 </div>

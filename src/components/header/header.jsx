@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { API_URL } from '../../api/APIConstant';
-import UserHandler, { isAuthenticated } from '../../api/UserHandler.jsx';
+import { isAuthenticated, clearLocalStorage } from '../../api/UserHandler.jsx';
 
 const Header = () => {
     const [state, setState] = useState(isAuthenticated() ? UserState.USER : UserState.GUEST);
@@ -22,8 +22,7 @@ const Header = () => {
             }),
             onSuccess: () => {
                 toast.success("Logout berhasil!");
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
+                clearLocalStorage();
                 setState(UserState.GUEST);
                 setTimeout(() => {
                     navigate("/home");

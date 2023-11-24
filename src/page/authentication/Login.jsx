@@ -9,27 +9,34 @@ import { toast } from "sonner";
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { API_URL } from '../../api/APIConstant';
+import { setToken, setUser } from '../../api/UserHandler';
 
 const Login = () => {
     const navigate = useNavigate();
     const [showPass, setShowPass] = useState(false);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const loginQuery = useMutation(
         {
             mutationFn: (data) => axios.post(`${API_URL}/login`, data),
             onSuccess: (data) => {
                 console.log(data);
-                localStorage.setItem('token', data.data.access_token);
-                localStorage.setItem('user', JSON.stringify(data.data.data));
+                setToken(data.data.access_token);
+                setUser(JSON.stringify(data.data.data));
                 toast.success("Login berhasil!");
                 setTimeout(() => {
                     navigate("/home");
                 }, 1000);
+                setLoading(false);
             },
             onError: (error) => {
                 setError(error.response.data.message);
                 toast.error(error.message);
+                setLoading(false);
+            },
+            onMutate: () => {
+                setLoading(true);
             }
         }
     );
@@ -90,7 +97,7 @@ const Login = () => {
                             <Link to="/forgotpassword" style={{ fontSize: '18px', color: 'dimgray' }}>Forgot your password?</Link>
                         </div>
                         <div className="text-center">
-                            <button type="submit" className="btn custom-btn px-5">Sign In</button>
+                            <button type="submit" className="btn custom-btn px-5" disabled={loading}>{loading ? 'Loading...' : 'Sign In'}</button>
                         </div>
                     </form>
                 </div>
