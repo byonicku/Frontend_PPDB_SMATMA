@@ -19,9 +19,10 @@ const Login = () => {
 
     const loginQuery = useMutation(
         {
-            mutationFn: (data) => axios.post(`${API_URL}/login`, data),
+            mutationFn: (data) => axios.post(`${API_URL}/login`, data, { 
+                headers: { 'Content-Type': 'application/json' }
+            }),
             onSuccess: (data) => {
-                console.log(data);
                 setToken(data.data.access_token);
                 setUser(JSON.stringify(data.data.data));
                 toast.success("Login berhasil!");

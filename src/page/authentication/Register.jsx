@@ -97,7 +97,7 @@ const Register = () => {
                             <Link to="/login" style={{ color: '#494747' }}>Sudah punya akun?</Link>
                         </div>
                         <div className="pt-4 text-center">
-                            <button type="submit" className="btn custom-btn px-4" disabled={loading}>{loading ? 'Registering...' : 'Register'}</button>
+                            <button type="submit" className="btn custom-btn px-5" disabled={loading}>{loading ? 'Registering...' : 'Register'}</button>
                         </div>
                     </form>
                 </div>
