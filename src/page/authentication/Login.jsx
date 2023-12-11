@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './authentication.css';
 import { useNavigate, Link } from 'react-router-dom';
 import Gradient from '../../components/authentication/gradient';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { toast } from "sonner";
 
 import axios from 'axios';
@@ -24,7 +24,8 @@ const Login = () => {
             }),
             onSuccess: (data) => {
                 setToken(data.data.access_token);
-                setUser(JSON.stringify(data.data.data));
+                delete data.data.message;
+                setUser(JSON.stringify(data.data));
                 toast.success("Login berhasil!");
                 setTimeout(() => {
                     navigate("/home");

@@ -15,7 +15,10 @@ import Biaya from '../biaya/Biaya.jsx'
 import ForgotPass from '../authentication/ForgotPass.jsx'
 import Login from '../authentication/Login.jsx'
 import Register from '../authentication/Register.jsx'
-import { isAuthenticated } from '../../api/UserHandler.jsx';
+import Profile from '../user/Profile.jsx';
+import ProtectedRoutes from './ProtectedRoutes.jsx';
+import DataDiri from '../berkas/DataDiri.jsx';
+import DataOrangTua from '../berkas/DataOrangTua.jsx';
 
 const queryClient = new QueryClient();
 
@@ -41,6 +44,9 @@ function LandingPage() {
             <Route path="/forgotpassword" element={<ForgotPass />} />
             <Route path="/jurusan" element={<Jurusan />} />
             <Route path="/biaya" element={<Biaya />} />
+            <Route path='/profile' element={<ProtectedRoutes> <Profile /> </ProtectedRoutes>} />
+            <Route path='/berkas' element={<ProtectedRoutes> <DataDiri /> </ProtectedRoutes>} />
+            <Route path='/berkas/data-orang-tua' element={<ProtectedRoutes> <DataOrangTua /> </ProtectedRoutes>} />
             <Route path="*" element={<ErrorPage />} />
             <Route path="/" element={<Navigate to="/home"/>}/>
           </Routes>
