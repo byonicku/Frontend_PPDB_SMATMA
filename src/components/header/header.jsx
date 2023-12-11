@@ -91,10 +91,10 @@ const Header = () => {
 
                         <li className="nav-item">
                             {state == UserState.GUEST ? (
-                                <a onClick={navigate('/login')} className="btn btn-primary rounded-pill px-4 border-0"
+                                <Link to="/login" className="btn btn-primary rounded-pill px-4 border-0"
                                     style={{ backgroundColor: '#ffd6a4', color: 'black', fontSize: '24px', fontWeight: 500, marginLeft: 10, marginTop: 2}}>
                                     Login
-                                </a>
+                                </Link>
                             ) : (
                                 <a onClick={handleLogout} className="btn btn-primary rounded-pill px-4 border-0"
                                     style={{ backgroundColor: '#FFA4A4', color: 'black', fontSize: '24px', fontWeight: 500, marginLeft: 10, marginTop: 2}}>
