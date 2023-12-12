@@ -1,21 +1,29 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { isAuthenticated } from "../../api/UserHandler";
+import getUser, { berkasInputted } from "../../api/UserHandler";
 import default_avatar from "./../../assets/default-avatar.jpg";
+import { getPicture } from "../../api/APIConstant";
+import './Profile.css';
+import ModalChangePhoto from "../../components/modal/ModalChangePhoto";
+import { setUser } from "../../api/UserHandler";
+import APIMethod from "../../api/APIMethod";
 
 const Profile = () => {
-  const isRegistered = !isAuthenticated();
-  const navigate = useNavigate();
+  const isRegistered = !berkasInputted();
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
+  const user = JSON.parse(getUser());
+
+  const refreshProfile = async () => {
+    const id = JSON.parse(getUser()).data.id_user;
+    const user = await APIMethod.getUserByID(id);
+    delete user.message;
+    setUser(JSON.stringify(user));
+  }
 
   return (
     <div className="container">
       <div className="d-flex flex-row">
         {isRegistered ? (
           <img
-            src={user.data.pas_foto}
+            src={getPicture(user.data_user.foto)}
             alt="Profile"
             className="img-profile border shadow-sm"
           />
@@ -29,9 +37,9 @@ const Profile = () => {
         <div className="container my-auto mx-2">
           <h1 className="text-left">
             <strong>
-              {user.data_user.nama_lengkap === null
-                ? user.data.nama_lengkap
-                : user.data_user.nama_lengkap}
+              {user.data_user.name === null
+                ? user.data.name
+                : user.data_user.name}
             </strong>
           </h1>
           {isRegistered ? (
@@ -39,7 +47,10 @@ const Profile = () => {
               <h1 className="text-left" style={{ fontSize: "24px" }}>
                 <strong>{user.data_user.jurusan}</strong>
               </h1>
-              <h2 className="text-left">{user.no_regis}</h2>
+              {/* <h2 className="text-left">{user.no_regis}</h2> */}
+              <ModalChangePhoto 
+                onClose={refreshProfile}
+              />
             </>
           ) : (
             <h2 className="text-left">Belum isi berkas</h2>
@@ -55,7 +66,7 @@ const Profile = () => {
               <>
                 <div className="mb-3">
                   <strong>Email:</strong>
-                  <p>{user.data_user.email}</p>
+                  <p>{user.data.email}</p>
                 </div>
                 <div className="mb-3">
                   <strong>Tanggal Lahir:</strong>
@@ -145,14 +156,14 @@ const Profile = () => {
         <hr />
         {isRegistered && (
           <>
-            {user.data.wali ? (
+            {user.wali ? (
               <>
                 <h3>Data Wali</h3>
                 <div className="row">
                   <div className="col-md-6 border-end">
                     <div className="mb-3">
                       <strong>Nama Lengkap:</strong>
-                      <p>{user.wali.nama_lengkap}</p>
+                      <p>{user.wali.name}</p>
                     </div>
                     <div className="mb-3">
                       <strong>Tempat Lahir:</strong>
@@ -194,7 +205,7 @@ const Profile = () => {
                       <div className="col-md-6">
                         <div className="mb-3">
                           <strong>Kabupaten/Kota:</strong>
-                          <p>{user.wali.kabupaten}</p>
+                          <p>{user.wali.kota}</p>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -233,14 +244,14 @@ const Profile = () => {
                   </div>
                 </div>
               </>
-            ) : user.data.ibu ? (
+            ) : user.ibu ? (
               <>
                 <h3>Data Ibu</h3>
                 <div className="row">
                 <div className="col-md-6 border-end">
                     <div className="mb-3">
                       <strong>Nama Lengkap:</strong>
-                      <p>{user.ibu.nama_lengkap}</p>
+                      <p>{user.ibu.name}</p>
                     </div>
                     <div className="mb-3">
                       <strong>Tempat Lahir:</strong>
@@ -282,7 +293,7 @@ const Profile = () => {
                       <div className="col-md-6">
                         <div className="mb-3">
                           <strong>Kabupaten/Kota:</strong>
-                          <p>{user.ibu.kabupaten}</p>
+                          <p>{user.ibu.kota}</p>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -328,7 +339,7 @@ const Profile = () => {
                 <div className="col-md-6 border-end">
                     <div className="mb-3">
                       <strong>Nama Lengkap:</strong>
-                      <p>{user.ayah.nama_lengkap}</p>
+                      <p>{user.ayah.name}</p>
                     </div>
                     <div className="mb-3">
                       <strong>Tempat Lahir:</strong>
@@ -370,7 +381,7 @@ const Profile = () => {
                       <div className="col-md-6">
                         <div className="mb-3">
                           <strong>Kabupaten/Kota:</strong>
-                          <p>{user.ayah.kabupaten}</p>
+                          <p>{user.ayah.kota}</p>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -410,6 +421,13 @@ const Profile = () => {
                 </div>
               </>
             )}
+            <hr />
+            <h3>Ijazah</h3>
+            <img 
+              src={getPicture(user.data_user.ijazah)}
+              alt="Ijazah"
+              className="img-fluid"
+            />
             <hr />
           </>
         )}

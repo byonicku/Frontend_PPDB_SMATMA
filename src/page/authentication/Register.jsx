@@ -81,8 +81,8 @@ const Register = () => {
                     )}
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3 pt-3 w-75 mx-auto">
-                            <label htmlFor="nama_lengkap" className='fw-bold'>Nama Lengkap (Sesuai Akte)</label>
-                            <input type="text" className="form-control py-2" id="nama_lengkap" name="nama_lengkap" placeholder="Nama Lengkap" required />
+                            <label htmlFor="name" className='fw-bold'>Nama Lengkap (Sesuai Akte)</label>
+                            <input type="text" className="form-control py-2" id="name" name="name" placeholder="Nama Lengkap" required />
                         </div>
                         <div className="mb-3 w-75 mx-auto">
                             <label htmlFor="email" className='fw-bold'>Email Pribadi</label>

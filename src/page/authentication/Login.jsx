@@ -20,9 +20,10 @@ const Login = () => {
         {
             mutationFn: (data) => APIAuth.login(data),
             onSuccess: (data) => {
-                console.log(data);
                 setToken(data.access_token);
                 delete data.message;
+                delete data.access_token;
+                delete data.token_type;
                 setUser(JSON.stringify(data));
                 toast.success("Login berhasil!");
                 setTimeout(() => {
@@ -49,6 +50,8 @@ const Login = () => {
         formData.forEach((value, key) => {
             data[key] = value;
         });
+
+        console.log(data);
 
         if (data.username === 'admin' && data.password === 'admin') {
             setUser('admin');

@@ -33,3 +33,9 @@ export function isAuthenticated() {
 export function isAdmin() {
     return localStorage.getItem('user') === 'admin';
 }
+
+export function berkasInputted() {
+    const user = JSON.parse(getUser());
+
+    return user.ayah === null && user.ibu === null && user.wali === null;
+}

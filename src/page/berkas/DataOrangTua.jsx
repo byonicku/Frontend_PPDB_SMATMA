@@ -3,9 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { cities, provinces } from "../../constant/input_constant.jsx";
 import { useLocation } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import getUser, { setUser } from "../../api/UserHandler";
+import { toast } from "sonner";
+import { useNavigate } from 'react-router-dom';
+import APIMethod from "../../api/APIMethod.jsx";
 
 function DataOrangTua() {
+  const navigate = useNavigate();
   const { state } = useLocation();
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   
   const [formData, setFormData] = useState({
     name: "",
@@ -26,6 +34,46 @@ function DataOrangTua() {
     penghasilan: "",
   });
 
+  const dataDiriQuery = useMutation(
+    {
+      mutationFn: (data) => APIMethod.submitBerkas(data),
+      onSuccess: (data) => {
+        console.log(data);
+        toast.success("Data diri query berhasil!");
+      },
+      onError: (error) => {
+        setError(error.message);
+        toast.error(error.message);
+        setLoading(false);
+      },
+      onMutate: () => {
+        setLoading(true);
+      },
+    }
+  );
+
+  const dataOrtuQuery = useMutation(
+    {
+      mutationFn: (data) => APIMethod.submitBerkasOrtu(data, state.content.pick),
+      onSuccess: (data) => {
+        console.log(data);
+        toast.success("Data ortu query berhasil!");
+        setTimeout(() => {
+          navigate("/berkas/success");
+        }, 500);
+        setLoading(false);
+      },
+      onError: (error) => {
+        setError(error.message);
+        toast.error(error.message);
+        setLoading(false);
+      },
+      onMutate: () => {
+        setLoading(true);
+      },
+    }
+  );
+  
   // Handle form field changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,13 +81,31 @@ function DataOrangTua() {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform any necessary form submission logic
-    console.log("Form submitted:", formData);
+
+    const formDataDiri = state.content.formData;
+    console.log(formDataDiri);
+
+    const formDataOrtu = new FormData(e.target);
+    const dataOrtu = {};
+    formDataOrtu.forEach((value, key) => {
+      dataOrtu[key] = value;
+    });
+
+    dataOrtu["id_data_user"] = JSON.parse(getUser()).data_user.id_data_user;
+
+    await dataOrtuQuery.mutateAsync(dataOrtu);
+    await dataDiriQuery.mutateAsync(formDataDiri);
+    
+    console.log("Form submitted dataDiri:", formDataDiri);
+    console.log("Form submitted dataOrtu:", dataOrtu);
+
+    const id = JSON.parse(getUser()).data.id_user;
+    const user = await APIMethod.getUserByID(id);
+    delete user.message;
+    setUser(JSON.stringify(user));
   };
-
-
 
   return (
     <div className="container">
@@ -63,7 +129,7 @@ function DataOrangTua() {
           <div className="card-body">
             <form onSubmit={handleSubmit}>
               <div className="row">
-                <h5>{state.dataDiri.pick}</h5>
+                <h5>{state.content.pick}</h5>
                 <div className="col-md-6 border-end">
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label">
@@ -145,7 +211,7 @@ function DataOrangTua() {
                       Nomor Telepon
                     </label>
                     <input
-                      type="number"
+                      type="tel"
                       className="form-control"
                       id="no_telp"
                       name="no_telp"
@@ -295,21 +361,6 @@ function DataOrangTua() {
                     </div>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="asal_smp" className="form-label">
-                      Asal SMP
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="asal_smp"
-                      name="asal_smp"
-                      placeholder="Asal SMP"
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="mb-3">
                     <label htmlFor="pendidikan_terakhir" className="form-label">
                       Pendidikan Terakhir
                     </label>
@@ -396,8 +447,9 @@ function DataOrangTua() {
                     type="submit"
                     className="btn shadow-sm w-100"
                     style={{ backgroundColor: "#CCFFD1" }}
+                    disabled={loading}
                   >
-                    Next
+                    Submit
                   </button>
                 </div>
               </div>

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Biaya = () => {
     return (
         <div className="container mt-4">

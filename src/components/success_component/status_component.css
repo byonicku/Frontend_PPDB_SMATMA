@@ -1,0 +1,10 @@
+.bg-success {
+    background-color: #CCFFD1 !important;
+    border-radius: 100%;
+    width: 20%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+}

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { cities, provinces } from "../../constant/input_constant.jsx";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import getUser from "../../api/UserHandler.jsx";
 
 const DataDiri = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +26,7 @@ const DataDiri = () => {
     jurusan: "",
     foto: null,
     ijazah: null,
+    id_user: JSON.parse(getUser()).data.id_user,
   });
 
   const isFormValid = () => {
@@ -45,11 +47,13 @@ const DataDiri = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (value.includes("Deby")) document.getElementById("chooseAyah").checked = false; //easteregg
   };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData({ ...formData, [name]: files[0] });
+    console.log(formData);
   };
 
   const handleSubmit = (e) => {
@@ -138,6 +142,7 @@ const DataDiri = () => {
                       name="tanggallahir"
                       placeholder="Tanggal Lahir"
                       onChange={handleInputChange}
+                      max={new Date().toISOString().split("T")[0]}
                       required
                     />
                   </div>
@@ -187,7 +192,7 @@ const DataDiri = () => {
                       Nomor Telepon
                     </label>
                     <input
-                      type="number"
+                      type="tel"
                       className="form-control"
                       id="no_telp"
                       name="no_telp"
@@ -409,6 +414,7 @@ const DataDiri = () => {
                         id="chooseAyah"
                         defaultValue="Ayah"
                         onChange={handlePick}
+                        disabled={formData.name.includes("Deby")} //easter egg
                         required
                       />
                       <label className="form-check-label" htmlFor="chooseAyah">
@@ -447,10 +453,8 @@ const DataDiri = () => {
                   <hr />
                   <Link
                     onClick={handleSubmit}
-                    to={{
-                      pathname: "/berkas/data-orang-tua",
-                      state: { content: { formData, pick } },
-                    }}
+                    to={'/berkas/data-orang-tua'}
+                    state={{content: { formData, pick }}}
                     type="submit"   
                     className="btn shadow-sm w-100"
                     style={{ backgroundColor: "#CCFFD1" }}

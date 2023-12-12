@@ -15,8 +15,12 @@ import Login from '../authentication/Login.jsx'
 import Register from '../authentication/Register.jsx'
 import Profile from '../user/Profile.jsx';
 import ProtectedRoutes from './ProtectedRoutes.jsx';
+import BerkasRoutes from './BerkasRoutes.jsx';
+import AdminRoutes from './AdminRoutes.jsx';
 import DataDiri from '../berkas/DataDiri.jsx';
 import DataOrangTua from '../berkas/DataOrangTua.jsx';
+import SuccessPage from '../success_page/SuccessPage.jsx';
+import AlreadyInputPage from '../success_page/AlreadyInputPage.jsx';
 
 const queryClient = new QueryClient();
 
@@ -43,8 +47,17 @@ function LandingPage() {
             <Route path="/jurusan" element={<Jurusan />} />
             <Route path="/biaya" element={<Biaya />} />
             <Route path='/profile' element={<ProtectedRoutes> <Profile /> </ProtectedRoutes>} />
-            <Route path='/berkas' element={<ProtectedRoutes> <DataDiri /> </ProtectedRoutes>} />
+            <Route path='/berkas' element={
+              <BerkasRoutes>
+                <ProtectedRoutes> 
+                  <DataDiri />
+                </ProtectedRoutes>
+              </BerkasRoutes> 
+              } />
             <Route path='/berkas/data-orang-tua' element={<ProtectedRoutes> <DataOrangTua /> </ProtectedRoutes>} />
+            <Route path='/berkas/success' element={<SuccessPage />} />
+            <Route path='/berkas/alreadyinput' element={<AlreadyInputPage />} />
+            <Route path='/test' element={<SuccessPage />} />
             <Route path="*" element={<ErrorPage />} />
             <Route path="/" element={<Navigate to="/home"/>}/>
           </Routes>

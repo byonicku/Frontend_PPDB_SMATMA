@@ -1,6 +1,5 @@
 import useAxios from "./APIConstant";
 import { getToken } from "./UserHandler";
-import { useMutation } from "@tanstack/react-query";
 
 const login = async (data) => {
   try {
@@ -24,7 +23,7 @@ const logout = async () => {
   try {
     const response = await useAxios.post("/logout", {}, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
     return response.data;
