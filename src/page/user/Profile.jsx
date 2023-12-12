@@ -7,13 +7,6 @@ const Profile = () => {
   const isRegistered = !isAuthenticated();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const res = localStorage.getItem("user");
-    if (!res) {
-      navigate("/home");
-    }
-  }, [navigate]);
-
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user);
 

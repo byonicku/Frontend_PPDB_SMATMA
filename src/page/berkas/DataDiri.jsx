@@ -449,7 +449,7 @@ const DataDiri = () => {
                     onClick={handleSubmit}
                     to={{
                       pathname: "/berkas/data-orang-tua",
-                      state: { dataDiri: { formData, pick } },
+                      state: { content: { formData, pick } },
                     }}
                     type="submit"   
                     className="btn shadow-sm w-100"

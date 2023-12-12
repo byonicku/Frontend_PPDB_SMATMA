@@ -4,29 +4,27 @@ import UserState from '../../constant/user_state.jsx'
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from "sonner";
 
-import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
-import { API_URL } from '../../api/APIConstant';
-import { isAuthenticated, clearLocalStorage } from '../../api/UserHandler.jsx';
+import APIAuth from '../../api/APIAuth.jsx';
+import { isAuthenticated, clearLocalStorage, isAdmin } from '../../api/UserHandler.jsx';
 
 const Header = () => {
-    const [state, setState] = useState(isAuthenticated() ? UserState.USER : UserState.GUEST);
+    const [state, setState] = useState(
+        isAdmin() ? UserState.ADMIN :
+        isAuthenticated() ? UserState.USER : UserState.GUEST
+    );
 
     const navigate = useNavigate();
     const logoutMutation = useMutation(
         {
-            mutationFn: () => axios.post(`${API_URL}/logout`, {}, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            }),
+            mutationFn: () => APIAuth.logout(),
             onSuccess: () => {
                 toast.success("Logout berhasil!");
                 clearLocalStorage();
                 setState(UserState.GUEST);
                 setTimeout(() => {
                     navigate("/home");
-                }, 1000);
+                }, 500);
             },
             onError: (error) => {
                 toast.error(error.message);
@@ -35,6 +33,16 @@ const Header = () => {
     );
 
     const handleLogout = async (e) => {
+        if (state === UserState.ADMIN) {
+            toast.success("Logout berhasil!");
+            setTimeout(() => {
+                navigate("/home");
+            }, 500);
+            clearLocalStorage();
+            setState(UserState.GUEST);
+            return;
+        }
+
         await logoutMutation.mutateAsync();
     }
 
@@ -83,7 +91,7 @@ const Header = () => {
                             </>
                         )}
 
-                        {state == UserState.ADMIN && (
+                        {state === UserState.ADMIN && (
                             <li className="nav-item">
                                 <Link to="/masterdata" className='nav-link'>Master Data</Link>
                             </li>

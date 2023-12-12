@@ -6,9 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { toast } from "sonner";
 
-import axios from 'axios';
+import APIAuth from '../../api/APIAuth';
 import { useMutation } from '@tanstack/react-query';
-import { API_URL } from '../../api/APIConstant';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -18,16 +17,16 @@ const Register = () => {
 
     const registerMutation = useMutation(
         {
-            mutationFn: (data) => axios.post(`${API_URL}/register`, data),
+            mutationFn: (data) => APIAuth.register(data),
             onSuccess: () => {
                 toast.success("Register berhasil! Check email anda untuk verifikasi akun.");
                 setTimeout(() => {
                     navigate("/login");
-                }, 1000);
+                }, 500);
             },
             onError: (error) => {
-                setError(error.response.data.message);
-                toast.error(error.message);
+                setError(error.message);
+                toast.error("Gagal Register!");
                 setLoading(false);
             },
             onMutate: () => {
@@ -44,6 +43,15 @@ const Register = () => {
         formData.forEach((value, key) => {
             data[key] = value;
         });
+
+        if (data.username === 'admin') {
+            toast.warning("Username 'admin' tidak boleh dipakai untuk register!");
+            setTimeout(() => {
+                navigate("/register");
+            }, 500);
+            setLoading(false);
+            return;
+        }
 
         await registerMutation.mutateAsync(data);
     }

@@ -29,3 +29,7 @@ export function clearLocalStorage() {
 export function isAuthenticated() {
     return localStorage.getItem('token') !== null;
 }
+
+export function isAdmin() {
+    return localStorage.getItem('user') === 'admin';
+}

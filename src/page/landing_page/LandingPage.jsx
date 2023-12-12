@@ -4,8 +4,6 @@ import { Toaster } from "sonner";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import './LandingPage.css'
-import UserState from '../../constant/user_state.jsx'
-
 import Header from '../../components/header/header.jsx'
 import Footer from '../../components/footer/footer.jsx'
 import HomePage from '../../components/home/home.jsx'
