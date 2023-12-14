@@ -23,7 +23,7 @@ const Header = () => {
                 clearLocalStorage();
                 setState(UserState.GUEST);
                 setTimeout(() => {
-                    navigate("/home");
+                    navigate("/");
                 }, 500);
             },
             onError: (error) => {
@@ -36,7 +36,7 @@ const Header = () => {
         if (state === UserState.ADMIN) {
             toast.success("Logout berhasil!");
             setTimeout(() => {
-                navigate("/home");
+                navigate("/");
             }, 500);
             clearLocalStorage();
             setState(UserState.GUEST);
@@ -49,7 +49,7 @@ const Header = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark mb-5" style={{ backgroundColor: '#0c84a4' }}>
             <div className="container">
-                <a className="navbar-brand rounded" style={{ backgroundColor: '#ffffff' }} href="/home">
+                <a className="navbar-brand rounded" style={{ backgroundColor: '#ffffff' }} href="/">
                     <img src={logo} width="250px" alt="Logo" />
                 </a>
 
@@ -63,7 +63,7 @@ const Header = () => {
                         {state === UserState.GUEST && (
                             <>
                                 <li className="nav-item">
-                                    <Link to="/home" className='nav-link'>Home</Link>
+                                    <Link to="/" className='nav-link'>Home</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link to="/jurusan" className='nav-link'>Jurusan</Link>
