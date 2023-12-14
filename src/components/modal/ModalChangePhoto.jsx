@@ -7,7 +7,7 @@ import APIMethod from "../../api/APIMethod";
 import { useNavigate } from "react-router-dom";
 /* eslint-disable react/prop-types */
 
-// ku males convert ke react-bootstrap tp karena ribet setup nya jadi ku giniin :v
+// ku males convert ke react-bootstrap karena ribet setup nya jadi ku pake khusus di modal aja :v
 
 const ModalChangePhoto = ({ onClose }) => {
   const navigate = useNavigate();

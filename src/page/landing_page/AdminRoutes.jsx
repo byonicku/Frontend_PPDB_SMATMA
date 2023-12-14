@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import getUser, { getToken } from "../../api/UserHandler";
 /* eslint-disable react/prop-types */ 
 
-const ProtectedRoutes = ({
+const AdminRoutes = ({
   children,
 }) => {
   const navigate = useNavigate();
@@ -17,4 +17,4 @@ const ProtectedRoutes = ({
   }, [navigate]);
   return user && (children ? children : <Outlet />);
 };
-export default ProtectedRoutes;
+export default AdminRoutes;
