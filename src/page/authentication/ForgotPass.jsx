@@ -42,7 +42,7 @@ const ForgotPass = () => {
     return (
         <div className="row" style={{ minHeight: '100vh' }}>
             <div className="col-md-6" style={{ paddingTop: '72px', paddingBottom: '40px' }}>
-            <Link to="/" className='nav-link ps-5'><FontAwesomeIcon icon={faArrowLeft} className='icon text-black'/></Link>
+            <Link to="/login" className='nav-link ps-5'><FontAwesomeIcon icon={faArrowLeft} className='icon text-black'/></Link>
                 <div className="d-flex flex-column py-5">
                     <h1 className="py-5 align-self-center">Forgot Password</h1>
                     {error && (

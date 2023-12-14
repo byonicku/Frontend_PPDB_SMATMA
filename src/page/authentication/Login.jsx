@@ -27,7 +27,7 @@ const Login = () => {
                 setUser(JSON.stringify(data));
                 toast.success("Login berhasil!");
                 setTimeout(() => {
-                    navigate("/home");
+                    navigate("/");
                 }, 500);
                 setLoading(false);
             },
@@ -57,7 +57,7 @@ const Login = () => {
             setUser('admin');
             toast.success("Admin login berhasil!");
             setTimeout(() => {
-                navigate("/home");
+                navigate("/");
             }, 500);
             setLoading(false);
             return;
