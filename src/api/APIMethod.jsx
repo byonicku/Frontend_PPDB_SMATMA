@@ -1,6 +1,20 @@
 import useAxios from "./APIConstant";
 import getUser, { getToken } from "./UserHandler";
 
+const getAllUser = async () => {
+  try {
+    const response = await useAxios.get("/user", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 const getUserByID = async (id) => {
   try {
     const response = await useAxios.get(`/user/${id}`, {
@@ -16,7 +30,7 @@ const getUserByID = async (id) => {
 };
 
 const submitBerkas = async (data) => {
-  const id = JSON.parse(getUser()).data.id_user;
+  const id = JSON.parse(getUser()).data_user.id_data_user;
   try {
     const response = await useAxios.post(`/data-user/${id}?_method=PUT`, data, {
       headers: {
@@ -58,9 +72,7 @@ const submitBerkasOrtu = async (data, pick) => {
   }
 };
 
-const updateProfilePicture = async (data) => {
-  const id = JSON.parse(getUser()).data_user.id_data_user;
-
+const updateProfilePicture = async (data, id) => {
   try {
     const response = await useAxios.post(
       `/data-user/updateProfile/${id}?_method=PUT`,
@@ -107,6 +119,7 @@ const getHistoryByUser = async (id) => {
 };
 
 const APIMethod = {
+  getAllUser,
   getUserByID,
   submitBerkas,
   submitBerkasOrtu,

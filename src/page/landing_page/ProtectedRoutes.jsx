@@ -1,20 +1,20 @@
 import { useNavigate, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getToken } from "../../api/UserHandler";
+import { getToken, isAdmin } from "../../api/UserHandler";
 /* eslint-disable react/prop-types */ 
 
 const ProtectedRoutes = ({
   children,
 }) => {
   const navigate = useNavigate();
-  const [token, setToken] = useState("");
+  const [user, setUser] = useState(false);
   useEffect(() => {
-    const tokenDariLS = getToken();
-    setToken(tokenDariLS);
-    if (!tokenDariLS) {
+    const user = !isAdmin();
+    setUser(user);
+    if (!user) {
       navigate("/");
     }
   }, [navigate]);
-  return token && (children ? children : <Outlet />);
+  return user && (children ? children : <Outlet />);
 };
 export default ProtectedRoutes;

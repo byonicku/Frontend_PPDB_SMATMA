@@ -95,16 +95,22 @@ function DataOrangTua() {
 
     dataOrtu["id_data_user"] = JSON.parse(getUser()).data_user.id_data_user;
 
-    await dataOrtuQuery.mutateAsync(dataOrtu);
-    await dataDiriQuery.mutateAsync(formDataDiri);
-    
-    console.log("Form submitted dataDiri:", formDataDiri);
-    console.log("Form submitted dataOrtu:", dataOrtu);
+    try {
+      console.log("Form submitted dataDiri:", formDataDiri);
+      console.log("Form submitted dataOrtu:", dataOrtu);
 
-    const id = JSON.parse(getUser()).data.id_user;
-    const user = await APIMethod.getUserByID(id);
-    delete user.message;
-    setUser(JSON.stringify(user));
+      await dataOrtuQuery.mutateAsync(dataOrtu);
+      await dataDiriQuery.mutateAsync(formDataDiri);
+
+      const id = JSON.parse(getUser()).data.id_user;
+      const user = await APIMethod.getUserByID(id);
+      delete user.message;
+      setUser(JSON.stringify(user));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

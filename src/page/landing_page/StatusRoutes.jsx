@@ -11,13 +11,13 @@ const StatusRoutes = ({
   useEffect(() => {
     const statusUser = JSON.parse(getUser()).data_user.status;
     
-    if (statusUser === null) {
+    if (statusUser === "Belum Input Berkas") {
        setStatus(true);
     } else {
        setStatus(statusUser);
     }
     
-    if (status === "Waiting") {
+    if (status === "Pending") {
       navigate("/status/waiting");
     }
 

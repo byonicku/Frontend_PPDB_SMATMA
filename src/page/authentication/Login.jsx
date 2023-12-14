@@ -25,7 +25,13 @@ const Login = () => {
                 delete data.access_token;
                 delete data.token_type;
                 setUser(JSON.stringify(data));
-                toast.success("Login berhasil!");
+
+                if (data.data.role === 'admin') {
+                    toast.success("Admin login berhasil!");
+                } else {
+                    toast.success("Login berhasil!");
+                }
+
                 setTimeout(() => {
                     navigate("/");
                 }, 500);
@@ -52,17 +58,6 @@ const Login = () => {
         });
 
         console.log(data);
-
-        if (data.username === 'admin' && data.password === 'admin') {
-            setUser('admin');
-            toast.success("Admin login berhasil!");
-            setTimeout(() => {
-                navigate("/");
-            }, 500);
-            setLoading(false);
-            return;
-        }
-
         await loginQuery.mutateAsync(data);
     }
 

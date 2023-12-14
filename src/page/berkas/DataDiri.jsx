@@ -26,6 +26,7 @@ const DataDiri = () => {
     jurusan: "",
     foto: null,
     ijazah: null,
+    status: "Pending",
     id_user: JSON.parse(getUser()).data.id_user,
   });
 
@@ -47,13 +48,11 @@ const DataDiri = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    if (value.includes("Deby")) document.getElementById("chooseAyah").checked = false; //easteregg
   };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData({ ...formData, [name]: files[0] });
-    console.log(formData);
   };
 
   const handleSubmit = (e) => {
@@ -413,8 +412,7 @@ const DataDiri = () => {
                         name="choose"
                         id="chooseAyah"
                         defaultValue="Ayah"
-                        onChange={handlePick}
-                        disabled={formData.name.includes("Deby")} //easter egg
+                        onChange={handlePick} 
                         required
                       />
                       <label className="form-check-label" htmlFor="chooseAyah">

@@ -27,11 +27,17 @@ export function clearLocalStorage() {
 }
 
 export function isAuthenticated() {
-    return localStorage.getItem('token') !== null;
+    return getToken() !== null;
 }
 
 export function isAdmin() {
-    return localStorage.getItem('user') === 'admin';
+    try {
+        const user = JSON.parse(getUser());
+
+        return user.data.role === 'admin';
+    } catch (error) {
+        return false;
+    }
 }
 
 export function berkasInputted() {

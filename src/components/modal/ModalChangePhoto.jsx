@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 // ku males convert ke react-bootstrap karena ribet setup nya jadi ku pake khusus di modal aja :v
 
-const ModalChangePhoto = ({ onClose }) => {
+const ModalChangePhoto = ({ id, onClose }) => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [foto, setFoto] = useState({ foto: null });
@@ -31,13 +31,10 @@ const ModalChangePhoto = ({ onClose }) => {
   };
 
   const profilePicQuery = useMutation({
-    mutationFn: (data) => APIMethod.updateProfilePicture(data),
+    mutationFn: (data) => APIMethod.updateProfilePicture(data, id),
     onSuccess: (data) => {
       onClose();
       toast.success("Foto berhasil diubah!");
-      setTimeout(() => {
-        navigate("/profile");
-      }, 500);
       setLoading(false);
       setFoto({ ...foto, foto: null });
       setError(null);

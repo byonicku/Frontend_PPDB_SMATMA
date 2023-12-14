@@ -26,6 +26,8 @@ import Pembayaran from "../user/Pembayaran.jsx";
 import Menunggu from "../status/Menunggu.jsx";
 import Diterima from "../status/Diterima.jsx";
 import BelumInput from "../status/BelumInput.jsx";
+import MasterData from "../admin/MasterData.jsx";
+import ProfileFromMasterData from "../admin/ProfileFromMasterData.jsx";
 
 const queryClient = new QueryClient();
 
@@ -85,9 +87,7 @@ function LandingPage() {
               path="/berkas/success"
               element={
                 <ProtectedRoutes>
-                  <BerkasRoutes>
-                    <SuccessPage />
-                  </BerkasRoutes>
+                  <SuccessPage />
                 </ProtectedRoutes>
               }
             />
@@ -95,9 +95,7 @@ function LandingPage() {
               path="/berkas/alreadyinput"
               element={
                 <ProtectedRoutes>
-                  <BerkasRoutes>
-                    <AlreadyInputPage />
-                  </BerkasRoutes>
+                  <AlreadyInputPage />
                 </ProtectedRoutes>
               }
             />
@@ -137,6 +135,22 @@ function LandingPage() {
                     <Diterima />
                   </StatusRoutes>
                 </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="/masterdata"
+              element={
+                <AdminRoutes>
+                  <MasterData />
+                </AdminRoutes>
+              }
+            />
+            <Route
+              path="/masterdata/profile/:id_user"
+              element={
+                <AdminRoutes>
+                  <ProfileFromMasterData />
+                </AdminRoutes>
               }
             />
             <Route path="*" element={<ErrorPage />} />

@@ -36,9 +36,3 @@ main {
   /* Allow the main content to grow and push the footer to the bottom */
 }
 
-footer {
-  background-color: #0c84a4;
-  width: 100%;
-  position: relative;
-  clear: both;
-}
