@@ -49,7 +49,7 @@ const Header = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark mb-5" style={{ backgroundColor: '#0c84a4' }}>
             <div className="container">
-                <a className="navbar-brand rounded" style={{ backgroundColor: '#ffffff' }} href="/">
+                <a className="navbar-brand rounded" style={{ backgroundColor: '#ffffff', cursor: 'pointer' }} onClick={() => navigate('/')}>
                     <img src={logo} width="250px" alt="Logo" />
                 </a>
 

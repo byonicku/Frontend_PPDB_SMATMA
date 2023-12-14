@@ -140,7 +140,6 @@ function LandingPage() {
               }
             />
             <Route path="*" element={<ErrorPage />} />
-            <Route path="/test" element={<BelumInput />} />
           </Routes>
         </main>
         {shouldRenderHeaderFooter && <Footer />}
