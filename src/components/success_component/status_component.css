@@ -8,3 +8,40 @@
     align-items: center;
     aspect-ratio: 1/1;
 }
+
+.bg-warning {
+    background-color: #fffbcc !important;
+    border-radius: 100%;
+    width: 20%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+}
+
+.bg-failed {
+    background-color: hsl(0, 100%, 90%) !important;
+    border-radius: 100%;
+    width: 20%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+}
+
+.icon-success {
+    color: #0CA41B;
+    font-size: 6rem;
+}
+
+.icon-warning {
+    color: #FFC107;
+    font-size: 6rem;
+}
+
+.icon-failed {
+    color: #FF0000;
+    font-size: 6rem;
+}
