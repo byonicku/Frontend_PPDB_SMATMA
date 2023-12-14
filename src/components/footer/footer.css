@@ -17,6 +17,13 @@
     transition: 0.3s;
 }
 
+footer {
+    background-color: #0c84a4;
+    width: 100%;
+    position: relative;
+    clear: both;
+}
+
 .footer-logo-shield {
     display: flex;
     width: 100%;

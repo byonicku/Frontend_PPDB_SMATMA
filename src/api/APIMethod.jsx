@@ -60,11 +60,43 @@ const submitBerkasOrtu = async (data, pick) => {
 
 const updateProfilePicture = async (data) => {
   const id = JSON.parse(getUser()).data_user.id_data_user;
-  
+
   try {
-    const response = await useAxios.post(`/data-user/updateProfile/${id}?_method=PUT`, data, {
+    const response = await useAxios.post(
+      `/data-user/updateProfile/${id}?_method=PUT`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+const getPembayaranByUser = async (id) => {
+  try {
+    const response = await useAxios.get(`/pembayaran/user/${id}`, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+const getHistoryByUser = async (id) => {
+  try {
+    const response = await useAxios.get(`/pembayaran/history/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
     });
@@ -79,6 +111,8 @@ const APIMethod = {
   submitBerkas,
   submitBerkasOrtu,
   updateProfilePicture,
+  getPembayaranByUser,
+  getHistoryByUser,
 };
 
 export default APIMethod;

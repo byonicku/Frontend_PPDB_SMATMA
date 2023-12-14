@@ -1,26 +1,34 @@
 import React, { useState } from "react";
-import { Modal, Button, Form, Col } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
+import { useMutation } from "@tanstack/react-query";
+import APIPembayaran from "../../api/APIPembayaran";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import getUser from "../../api/UserHandler";
 
-const ModalPembayaran = ({ onClose }) => {
+const ModalPembayaran = ({ id, onClose }) => {
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
   
   const [formData, setFormData] = useState({
-    nama_rekening: "",
+    nama_pengirim: "",
     tanggal_bayar: "",
     metode_pembayaran: "",
     bukti_pembayaran: null,
+    id_user: JSON.parse(getUser()).data.id_user,
   });
 
   const handleClose = () => {
     setShowModal(false);
     setFormData({
-      nama_rekening: "",
+      nama_pengirim: "",
       tanggal_bayar: "",
       metode_pembayaran: "",
       bukti_pembayaran: null,
     });
     setError(null);
+    onClose();
   } 
 
   const handleInputChange = (e) => {
@@ -48,24 +56,34 @@ const ModalPembayaran = ({ onClose }) => {
     return true;
   };
 
-  const handleFormSubmit = () => {
-    // Add your logic to handle form submission here
+  const handleFormSubmit = async () => {
     if (!isFormValid()) {
         setError("Semua field harus diisi!");
         return;
     }
 
     console.log("Form submitted:", formData);
-    // Reset the form data
-    setFormData({
-      nama_rekening: "",
-      tanggal_bayar: "",
-      metode_pembayaran: "",
-      bukti_pembayaran: null,
-    });
-    // Close the modal
+    await pembayaranQuery.mutateAsync(formData);
+
     handleClose();
   };
+
+  const pembayaranQuery = useMutation({
+    mutationFn: (data) => APIPembayaran.bayarPembayaran(data, id),
+    onSuccess: (data) => {
+      onClose();
+      console.log(data);
+      toast.success("Pembayaran berhasil dibayar! Silahkan menunggu admin untuk verifikasi");
+      setTimeout(() => {
+        navigate("/pembayaran");
+      }, 500);
+      setError(null);
+    },
+    onError: (error) => {
+      setError(error.message);
+      toast.error(error.message);
+    },
+  });
 
   return (
     <>
@@ -78,7 +96,7 @@ const ModalPembayaran = ({ onClose }) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="nama_rekening">
+            <Form.Group controlId="nama_pengirim">
               <Form.Label>Nama Rekening Pengirim</Form.Label>
               <Form.Control
                 type="text"
@@ -118,7 +136,7 @@ const ModalPembayaran = ({ onClose }) => {
 
             <Form.Group controlId="bukti_pembayaran">
               <Form.Label>Upload Bukti Pembayaran</Form.Label>
-              <Form.Control type="file" onChange={handleFileChange} required/>
+              <Form.Control type="file" onChange={handleFileChange} accept="image/*" required/>
             </Form.Group>
           </Form>
             {error && (

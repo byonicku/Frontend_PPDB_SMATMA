@@ -1,48 +1,53 @@
-import { useState } from 'react';
-import ModalPembayaran from '../../components/modal/ModalPembayaran';
+import { useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
+import ModalPembayaran from "../../components/modal/ModalPembayaran";
+import APIMethod from "../../api/APIMethod";
 
 const Pembayaran = () => {
-    const refreshPembayaran = () => {
-        // Add your logic to refresh the data here
-        console.log("Refreshing data...");
+  const [billingData, setBillingData] = useState([]);
+  const [paymentHistoryData, setPaymentHistoryData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const refreshPembayaran = async () => {
+    setLoading(true);
+    const user = JSON.parse(localStorage.getItem("user"));
+    const id = user.data.id_user;
+
+    const billingData = await APIMethod.getPembayaranByUser(id);
+    setBillingData(billingData.data);
+
+    const paymentHistoryData = await APIMethod.getHistoryByUser(id);
+    setPaymentHistoryData(paymentHistoryData.data);
+    setLoading(false);
+    console.log("Refreshing data...");
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const user = JSON.parse(localStorage.getItem("user"));
+        const id = user.data.id_user;
+
+        const billingData = await APIMethod.getPembayaranByUser(id);
+        setBillingData(billingData.data);
+
+        const paymentHistoryData = await APIMethod.getHistoryByUser(id);
+        setPaymentHistoryData(paymentHistoryData.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
-  const [billingData, setBillingData] = useState([
-    {
-      id: 1,
-      name: 'Tagihan 1',
-      startDate: '2023-10-01',
-      endDate: '2023-10-31',
-      amount: 'Rp 500.00',
-    },
-    {
-      id: 2,
-      name: 'Tagihan 2',
-      startDate: '2023-11-01',
-      endDate: '2023-11-30',
-      amount: 'Rp 600.00',
-    },
-  ]);
 
-  const [paymentHistoryData, setPaymentHistoryData] = useState([
-    {
-      id: 1,
-      name: 'Tagihan 1',
-      paymentDate: '2023-10-15',
-      paymentMethod: 'Transfer Bank',
-      paymentAmount: 'Rp 500.00',
-      penaltyAmount: 'Rp 0.00',
-    },
-    {
-      id: 2,
-      name: 'Tagihan 2',
-      paymentDate: '2023-11-15',
-      paymentMethod: 'Kartu Kredit',
-      paymentAmount: 'Rp 600.00',
-      penaltyAmount: 'Rp 10.00',
-    },
-  ]);
+    fetchData();
+  }, []);
 
-  return (
+  console.log(billingData);
+  console.log(paymentHistoryData);
+
+  return !loading ? (
     <div className="container mb-3">
       <div className="card">
         <div className="card-header">
@@ -62,17 +67,21 @@ const Pembayaran = () => {
                 </tr>
               </thead>
               <tbody>
-                {billingData.map((item) => (
-                  <tr key={item.id}>
-                    <th scope="row">{item.id}</th>
-                    <td>{item.name}</td>
-                    <td>{item.startDate}</td>
-                    <td>{item.endDate}</td>
-                    <td>{item.amount}</td>
+                {billingData.map((item, index) => (
+                  <tr key={item.id_pembayaran}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{item.nama_tagihan}</td>
+                    <td>{item.tanggal_awal}</td>
+                    <td>{item.tanggal_akhir}</td>
+                    <td>{item.jumlah_pembayaran}</td>
                     <td>
-                      <ModalPembayaran 
-
-                      />
+                      {
+                        item.status_pembayaran === 'In Process' ?
+                        <span className="btn btn-success disabled">In Process</span> :
+                        <ModalPembayaran
+                        id={item.id_pembayaran}
+                        onClose={refreshPembayaran} />
+                      }
                     </td>
                   </tr>
                 ))}
@@ -100,14 +109,24 @@ const Pembayaran = () => {
                 </tr>
               </thead>
               <tbody>
-                {paymentHistoryData.map((item) => (
-                  <tr key={item.id}>
-                    <th scope="row">{item.id}</th>
-                    <td>{item.name}</td>
-                    <td>{item.paymentDate}</td>
-                    <td>{item.paymentMethod}</td>
-                    <td>{item.paymentAmount}</td>
-                    <td>{item.penaltyAmount}</td>
+                {paymentHistoryData.map((item, index) => (
+                  <tr key={item.id_pembayaran}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{item.nama_tagihan}</td>
+                    <td>{item.tanggal_bayar}</td>
+                    <td>{item.metode_pembayaran}</td>
+                    <td>
+                      {item.jumlah_pembayaran.toLocaleString("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      })}
+                    </td>
+                    <td>
+                      {item.denda.toLocaleString("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      })}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -115,6 +134,10 @@ const Pembayaran = () => {
           </div>
         </div>
       </div>
+    </div>
+  ) : (
+    <div className="text-center">
+      <Spinner animation="border" style={{  color:"#0c84a4", width:'3rem', height:'3rem' }}/>
     </div>
   );
 };
