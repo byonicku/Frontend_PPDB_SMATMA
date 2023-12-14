@@ -73,7 +73,7 @@ const Login = () => {
     return (
         <div className="row" style={{ minHeight: '100vh' }}>
             <div className="col-md-6" style={{ paddingTop: '72px', paddingBottom: '40px' }}>
-                <Link to="/home" className='nav-link ps-5'><FontAwesomeIcon icon={faHome} className='icon text-black'/></Link>
+                <Link to="/" className='nav-link ps-5'><FontAwesomeIcon icon={faHome} className='icon text-black'/></Link>
                 <div className="d-flex flex-column py-5">
                     <h1 className="py-5 align-self-center">Sign In</h1>
                     {error && (

@@ -63,7 +63,7 @@ const Register = () => {
     return (
         <div className="row" style={{ minHeight: '100vh', overflowY: 'hidden' }}>
             <div className="col-md-6" style={{ paddingTop: '64px', paddingBottom: '40px' }}>
-            <Link to="/home" className='nav-link ps-5'><FontAwesomeIcon icon={faHome} className='icon text-black'/></Link>
+            <Link to="/" className='nav-link ps-5'><FontAwesomeIcon icon={faHome} className='icon text-black'/></Link>
                 <div className="d-flex flex-column py-5">
                     <h1 className="py-3 align-self-center">Register</h1>
                     {error && (
