@@ -41,6 +41,7 @@ function LandingPage() {
         <Toaster position="top-center" richColors  />
         <main>
           <Routes>
+            <Route path="/" element={<HomePage />}/>
             <Route path="/home" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -60,8 +61,7 @@ function LandingPage() {
             <Route path='/berkas/alreadyinput' element={<AlreadyInputPage />} />
             <Route path='/pembayaran' element={<ProtectedRoutes> <Pembayaran /> </ProtectedRoutes>} />
             <Route path='/test' element={<SuccessPage />} />
-            <Route path="*" element={<ErrorPage />} />
-            <Route path="/" element={<Navigate to="/home"/>}/>
+            <Route path="*" element={<ErrorPage />} />  
           </Routes>
         </main>
         {shouldRenderHeaderFooter && <Footer />}
