@@ -2,30 +2,30 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useMutation } from "@tanstack/react-query";
 import APIPembayaran from "../../api/APIPembayaran";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import getUser from "../../api/UserHandler";
 
-const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
-  const navigate = useNavigate();
+const ModalAddPembayaran = ({ id_user, onClose }) => {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
   
   const [formData, setFormData] = useState({
-    nama_pengirim: "",
-    tanggal_bayar: "",
-    metode_pembayaran: "",
-    bukti_pembayaran: null,
-    id_user: JSON.parse(getUser()).data.id_user,
+    nama_tagihan: "",
+    tanggal_awal: "",
+    tanggal_akhir: "",
+    jumlah_pembayaran: 0,
+    denda : 0,
+    id_user: id_user,
   });
 
   const handleClose = () => {
     setShowModal(false);
     setFormData({
-      nama_pengirim: "",
-      tanggal_bayar: "",
-      metode_pembayaran: "",
-      bukti_pembayaran: null,
+      nama_tagihan: "",
+      tanggal_awal: "",
+      tanggal_akhir: "",
+      jumlah_pembayaran: 0,
+      denda : 0,
+      id_user: id_user,
     });
     setError(null);
     onClose();
@@ -36,14 +36,6 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
     setFormData({
       ...formData,
       [id]: value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    const { id, files } = e.target;
-    setFormData({
-      ...formData,
-      [id]: files[0],
     });
   };
 
@@ -62,21 +54,22 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
         return;
     }
 
-    console.log("Form submitted:", formData);
-    await pembayaranQuery.mutateAsync(formData);
+    if (formData.tanggal_awal > formData.tanggal_akhir) {
+      setError("Tanggal awal tidak boleh lebih besar dari tanggal akhir!");
+      return;
+    }
+
+    await addPembayaranQuery.mutateAsync(formData);
 
     handleClose();
   };
 
-  const pembayaranQuery = useMutation({
-    mutationFn: (data) => APIPembayaran.bayarPembayaran(data, id),
+  const addPembayaranQuery = useMutation({
+    mutationFn: (data) => APIPembayaran.tambahPembayaran(data),
     onSuccess: (data) => {
       onClose();
       console.log(data);
-      toast.success("Pembayaran berhasil dibayar! Silahkan menunggu admin untuk verifikasi");
-      setTimeout(() => {
-        navigate("/pembayaran");
-      }, 500);
+      toast.success("Pembayaran berhasil ditambahkan!");
       setError(null);
     },
     onError: (error) => {
@@ -88,58 +81,70 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
   return (
     <>
       <Button variant="primary" onClick={() => setShowModal(true)}>
-        Bayar
+        Tambah Tagihan
       </Button>
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Form Pembayaran</Modal.Title>
+          <Modal.Title>Tambah Tagihan</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="nama_pengirim">
-              <Form.Label>Nama Rekening Pengirim</Form.Label>
+            <Form.Group controlId="nama_tagihan">
+              <Form.Label>Nama Tagihan</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Nama Rekening Pengirim"
-                value={formData.nama_rekening}
+                placeholder="Nama Tagihan"
+                value={formData.nama_tagihan}
                 onChange={handleInputChange}
                 required
               />
             </Form.Group>
 
-            <Form.Group controlId="tanggal_bayar">
-              <Form.Label>Tanggal Bayar</Form.Label>
+            <Form.Group controlId="tanggal_awal">
+              <Form.Label>Tanggal Awal</Form.Label>
               <Form.Control
                 type="date"
-                value={formData.tanggal_bayar}
-                min={tanggal_awal}
-                max={tanggal_akhir}
+                value={formData.tanggal_awal}
+                min={new Date().toISOString().split("T")[0]}
                 onChange={handleInputChange}
                 required
               />
             </Form.Group>
 
-            <Form.Group controlId="metode_pembayaran">
-              <Form.Label>Metode Pembayaran</Form.Label>
+            <Form.Group controlId="tanggal_akhir">
+              <Form.Label>Tanggal Akhir</Form.Label>
               <Form.Control
-                as="select"
-                defaultValue="Pilih Metode Pembayaran"
+                type="date"
+                disabled={formData.tanggal_awal === "" || (formData.tanggal_awal > formData.tanggal_akhir && formData.tanggal_akhir !== "")}
+                min={formData.tanggal_awal}
+                value={formData.tanggal_akhir}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="jumlah_pembayaran">
+              <Form.Label>Jumlah Pembayaran</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Jumlah Pembayaran"
                 onChange={handleInputChange}
                 required
               >
-                <option hidden disabled>
-                    Pilih Metode Pembayaran
-                </option>
-                <option>Transfer Bank</option>
-                <option>Kartu Kredit</option>
-                <option>Virtual Account</option>
               </Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="bukti_pembayaran">
-              <Form.Label>Upload Bukti Pembayaran</Form.Label>
-              <Form.Control type="file" onChange={handleFileChange} accept="image/*" required/>
+            <Form.Group controlId="denda">
+              <Form.Label>Denda</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Denda"
+                onChange={handleInputChange}
+                required
+              >
+              </Form.Control>
             </Form.Group>
+
           </Form>
             {error && (
                 <div className="alert alert-danger mt-2" role="alert">
@@ -160,4 +165,4 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
   );
 };
 
-export default ModalPembayaran;
+export default ModalAddPembayaran;

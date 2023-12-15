@@ -265,18 +265,24 @@ const ProfileFromMasterData = () => {
               <p className="text-left" style={{ fontSize: "18px" }}>
                 Status Pendaftaran : <strong> {user.data_user.status}</strong>
               </p>
-              <ModalChangePhoto
-                id={user.data_user.id_data_user}
-                onClose={refreshProfile}
-              />
-              <button
-                className="btn btn-success ms-1"
-                onClick={handleAccept}
-                disabled={user.data_user.status === "Accepted"}
-              >
-                <FaCheck className="me-1 mb-1" />
-                Terima
-              </button>
+              <div className="row">
+                <div className="col-md-12 col-lg-2 mb-1">
+                  <ModalChangePhoto
+                    id={user.data_user.id_data_user}
+                    onClose={refreshProfile}
+                  />
+                </div>
+                <div className="col-md-12 col-lg-10">
+                  <button
+                    className="btn btn-success"
+                    onClick={handleAccept}
+                    disabled={user.data_user.status === "Accepted"}
+                  >
+                    <FaCheck className="me-1 mb-1" />
+                    Terima
+                  </button>
+                </div>
+              </div>
             </>
           ) : (
             <h2 className="text-left">Belum isi berkas</h2>
@@ -295,7 +301,7 @@ const ProfileFromMasterData = () => {
         </h3>
         <form onSubmit={handleFormUserSubmit}>
           <div className="row">
-            <div className="col-md-6 border-end">
+            <div className="col-md-12 col-lg-6 border-end">
               {isRegistered ? (
                 <>
                   <div className="mb-3">
@@ -399,7 +405,7 @@ const ProfileFromMasterData = () => {
                     )}
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>RT:</strong>
                         {editUser ? (
@@ -417,7 +423,7 @@ const ProfileFromMasterData = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>RW:</strong>
                         {editUser ? (
@@ -444,7 +450,7 @@ const ProfileFromMasterData = () => {
                 </div>
               )}
             </div>
-            <div className="col-md-6">
+            <div className="col-md-12 col-lg-6">
               {isRegistered && (
                 <>
                   <div className="mb-3">
@@ -485,7 +491,7 @@ const ProfileFromMasterData = () => {
                     )}
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>Kabupaten/Kota:</strong>
                         {editUser ? (
@@ -504,7 +510,7 @@ const ProfileFromMasterData = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>Kecamatan:</strong>
                         {editUser ? (
@@ -525,7 +531,7 @@ const ProfileFromMasterData = () => {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>Kelurahan/Desa:</strong>
                         {editUser ? (
@@ -544,7 +550,7 @@ const ProfileFromMasterData = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>Kode Pos:</strong>
                         {editUser ? (
@@ -609,7 +615,7 @@ const ProfileFromMasterData = () => {
                 </div>
               </h3>
               <div className="row">
-                <div className="col-md-6 border-end">
+                <div className="col-md-12 col-lg-6 border-end">
                   <div className="mb-3">
                     <strong>Nama Lengkap:</strong>
                     {editOrtu ? (
@@ -685,7 +691,7 @@ const ProfileFromMasterData = () => {
                     )}
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>RT:</strong>
                         {editOrtu ? (
@@ -703,7 +709,7 @@ const ProfileFromMasterData = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>RW:</strong>
                         {editOrtu ? (
@@ -721,25 +727,27 @@ const ProfileFromMasterData = () => {
                         )}
                       </div>
                     </div>
-                    <div className="mb-3">
-                      <strong>Nomor Telepon:</strong>
-                      {editOrtu ? (
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="no_telp"
-                          name="no_telp"
-                          defaultValue={ortu.no_telp}
-                          onChange={handleInputOrtuChange}
-                          required
-                        />
-                      ) : (
-                        <p>{ortu.no_telp}</p>
-                      )}
+                    <div className="col-md-12 col-lg-6">
+                      <div className="mb-3">
+                        <strong>Nomor Telepon:</strong>
+                        {editOrtu ? (
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="no_telp"
+                            name="no_telp"
+                            defaultValue={ortu.no_telp}
+                            onChange={handleInputOrtuChange}
+                            required
+                          />
+                        ) : (
+                          <p>{ortu.no_telp}</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12 col-lg-6">
                   <div className="mb-3">
                     <strong>Provinsi:</strong>
                     {editOrtu ? (
@@ -762,7 +770,7 @@ const ProfileFromMasterData = () => {
                     )}
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>Kabupaten/Kota:</strong>
                         {editOrtu ? (
@@ -781,7 +789,7 @@ const ProfileFromMasterData = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>Kecamatan:</strong>
                         {editOrtu ? (
@@ -802,7 +810,7 @@ const ProfileFromMasterData = () => {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>Kelurahan/Desa:</strong>
                         {editOrtu ? (
@@ -821,7 +829,7 @@ const ProfileFromMasterData = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>Kode Pos:</strong>
                         {editOrtu ? (

@@ -58,10 +58,10 @@ const MasterData = () => {
       <div className="card">
         <div className="card-header">
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-12 col-lg-6">
               <h3>Informasi Pengguna</h3>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-12 col-lg-6">
               <form>
                 <div className="input-group">
                   <input
@@ -77,8 +77,8 @@ const MasterData = () => {
           </div>
         </div>
         <div className="card-body">
-          <div className="row py-3">
-            <div className="col-md-6">
+          <div className="row">
+            <div className="col-md-12 col-lg-6 mb-1 text-md-start">
               <button
                 type="submit"
                 className="btn shadow-sm"
@@ -87,7 +87,7 @@ const MasterData = () => {
                 Tambah Tagihan Semua
               </button>
             </div>
-            <div className="col-md-6 text-end">
+            <div className="col-md-12 col-lg-6 text-md-end">
               <button
                 onClick={() => clearFilter()}
                 className={`btn btn-${

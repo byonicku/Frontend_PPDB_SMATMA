@@ -123,7 +123,7 @@ const Profile = () => {
       <div className="container">
         <h3>Data Diri</h3>
         <div className="row">
-          <div className="col-md-6 border-end">
+          <div className="col-md-12 col-lg-6 border-end">
             {isRegistered ? (
               <>
                 <div className="mb-3">
@@ -155,13 +155,13 @@ const Profile = () => {
                   <p>{currentUser.data_user.alamat}</p>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>RT:</strong>
                       <p>{currentUser.data_user.rt}</p>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>RW:</strong>
                       <p>{currentUser.data_user.rw}</p>
@@ -176,7 +176,7 @@ const Profile = () => {
               </div>
             )}
           </div>
-          <div className="col-md-6">
+          <div className="col-md-12 col-lg-6">
             {isRegistered && (
               <>
                 <div className="mb-3">
@@ -188,13 +188,13 @@ const Profile = () => {
                   <p>{currentUser.data_user.provinsi}</p>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>Kabupaten/Kota:</strong>
                       <p>{currentUser.data_user.kota}</p>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>Kecamatan:</strong>
                       <p>{currentUser.data_user.kecamatan}</p>
@@ -202,13 +202,13 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>Kelurahan/Desa:</strong>
                       <p>{currentUser.data_user.kelurahan}</p>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>Kode Pos:</strong>
                       <p>{currentUser.data_user.kode_pos}</p>
@@ -228,7 +228,7 @@ const Profile = () => {
           <>
             <h3>Data {jenisOrtu} </h3>
             <div className="row">
-              <div className="col-md-6 border-end">
+              <div className="col-md-12 col-lg-6 border-end">
                 <div className="mb-3">
                   <strong>Nama Lengkap:</strong>
                   <p>{ortu.name}</p>
@@ -246,37 +246,39 @@ const Profile = () => {
                   <p>{ortu.alamat}</p>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>RT:</strong>
                       <p>{ortu.rt}</p>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>RW:</strong>
                       <p>{ortu.rw}</p>
                     </div>
                   </div>
-                  <div className="mb-3">
-                    <strong>Nomor Telepon:</strong>
-                    <p>{ortu.no_telp}</p>
+                  <div className="col-md-12 col-lg-6">
+                    <div className="mb-3">
+                      <strong>Nomor Telepon:</strong>
+                      <p>{ortu.no_telp}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-12 col-lg-6">
                 <div className="mb-3">
                   <strong>Provinsi:</strong>
                   <p>{ortu.provinsi}</p>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>Kabupaten/Kota:</strong>
                       <p>{ortu.kota}</p>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>Kecamatan:</strong>
                       <p>{ortu.kecamatan}</p>
@@ -284,13 +286,13 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>Kelurahan/Desa:</strong>
                       <p>{ortu.kelurahan}</p>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
                       <strong>Kode Pos:</strong>
                       <p>{ortu.kode_pos}</p>

@@ -31,7 +31,7 @@ const StatusComponent = ({ title, status, message }) => {
                 }
             />
         </div>
-        <div style={{ maxWidth: "25%" }} className="mt-4">
+        <div style={{ maxWidth: "40%" }} className="mt-4">
             <h4>{title}</h4>
             <p>{message}</p>
         </div>

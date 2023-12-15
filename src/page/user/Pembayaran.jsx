@@ -60,6 +60,7 @@ const Pembayaran = () => {
                   <th scope="col">Tanggal Awal</th>
                   <th scope="col">Tanggal Akhir</th>
                   <th scope="col">Jumlah Bayar</th>
+                  <th scope="col">Status</th>
                   <th scope="col">Aksi</th>
                 </tr>
               </thead>
@@ -68,17 +69,40 @@ const Pembayaran = () => {
                   <tr key={item.id_pembayaran}>
                     <th scope="row">{index + 1}</th>
                     <td>{item.nama_tagihan}</td>
-                    <td>{item.tanggal_awal}</td>
-                    <td>{item.tanggal_akhir}</td>
-                    <td>{item.jumlah_pembayaran}</td>
                     <td>
+                      {new Date(item.tanggal_awal).toLocaleDateString("id-ID")}
+                    </td>
+                    <td>
+                      {new Date(item.tanggal_akhir).toLocaleDateString("id-ID")}
+                    </td>
+                    <td>
+                      {(item.jumlah_pembayaran + item.denda).toLocaleString("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      })}
+                    </td>
+                    <td>
+                      {item.status_pembayaran}
+                    </td>
+                    <td>                      
                       {
-                        item.status_pembayaran === 'In Process' ?
-                        <span className="btn btn-success disabled">In Process</span> :
+                      item.tanggal_akhir < new Date().toISOString().split("T")[0] ? (
+                        <span className="btn btn-danger disabled">
+                          Expired, Contact Admin!
+                        </span>
+                      ) :
+                      item.status_pembayaran === "In Process" ? (
+                        <span className="btn btn-success disabled">
+                          Tunggu Konfirmasi Admin!
+                        </span>
+                      ) : (
                         <ModalPembayaran
-                        id={item.id_pembayaran}
-                        onClose={refreshPembayaran} />
-                      }
+                          id={item.id_pembayaran}
+                          tanggal_awal={item.tanggal_awal}
+                          tanggal_akhir={item.tanggal_akhir}
+                          onClose={refreshPembayaran}
+                        />
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -110,7 +134,9 @@ const Pembayaran = () => {
                   <tr key={item.id_pembayaran}>
                     <th scope="row">{index + 1}</th>
                     <td>{item.nama_tagihan}</td>
-                    <td>{item.tanggal_bayar}</td>
+                    <td>
+                      {new Date(item.tanggal_bayar).toLocaleDateString("id-ID")}
+                    </td>
                     <td>{item.metode_pembayaran}</td>
                     <td>
                       {item.jumlah_pembayaran.toLocaleString("id-ID", {
@@ -134,7 +160,10 @@ const Pembayaran = () => {
     </div>
   ) : (
     <div className="text-center">
-      <Spinner animation="border" style={{  color:"#0c84a4", width:'3rem', height:'3rem' }}/>
+      <Spinner
+        animation="border"
+        style={{ color: "#0c84a4", width: "3rem", height: "3rem" }}
+      />
     </div>
   );
 };
