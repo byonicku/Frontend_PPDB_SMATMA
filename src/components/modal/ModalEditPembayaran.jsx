@@ -109,6 +109,7 @@ const ModalEditPembayaran = ({ data, onClose }) => {
                 type="date"
                 defaultValue={formData.tanggal_awal}
                 onChange={handleInputChange}
+                onKeyDown={(e) => e.preventDefault()}
                 required
               />
             </Form.Group>
@@ -121,6 +122,7 @@ const ModalEditPembayaran = ({ data, onClose }) => {
                 min={formData.tanggal_awal}
                 defaultValue={formData.tanggal_akhir}
                 onChange={handleInputChange}
+                onKeyDown={(e) => e.preventDefault()}
                 required
               />
             </Form.Group>

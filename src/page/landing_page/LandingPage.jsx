@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Route, Routes, useLocation, Navigate } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -10,7 +9,6 @@ import HomePage from "../../components/home/home.jsx";
 import Jurusan from "../jurusan/Jurusan.jsx";
 import ErrorPage from "../error/ErrorPage.jsx";
 import Biaya from "../biaya/Biaya.jsx";
-import ForgotPass from "../authentication/ForgotPass.jsx";
 import Login from "../authentication/Login.jsx";
 import Register from "../authentication/Register.jsx";
 import Profile from "../user/Profile.jsx";
@@ -53,7 +51,6 @@ function LandingPage() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/forgotpassword" element={<ForgotPass />} />
             <Route path="/jurusan" element={<Jurusan />} />
             <Route path="/biaya" element={<Biaya />} />
             <Route

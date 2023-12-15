@@ -1,5 +1,5 @@
 import useAxios from "./APIConstant";
-import getUser, { getToken } from "./UserHandler";
+import { getToken } from "./UserHandler";
 
 const tambahPembayaran = async (data) => {
   try {

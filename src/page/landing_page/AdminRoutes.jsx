@@ -1,6 +1,6 @@
 import { useNavigate, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import getUser, { getToken, isAdmin } from "../../api/UserHandler";
+import { isAdmin } from "../../api/UserHandler";
 /* eslint-disable react/prop-types */ 
 
 const AdminRoutes = ({

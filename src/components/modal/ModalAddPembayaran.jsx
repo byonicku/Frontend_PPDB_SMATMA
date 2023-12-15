@@ -107,6 +107,7 @@ const ModalAddPembayaran = ({ id_user, onClose }) => {
                 value={formData.tanggal_awal}
                 min={new Date().toISOString().split("T")[0]}
                 onChange={handleInputChange}
+                onKeyDown={(e) => e.preventDefault()}
                 required
               />
             </Form.Group>
@@ -119,6 +120,7 @@ const ModalAddPembayaran = ({ id_user, onClose }) => {
                 min={formData.tanggal_awal}
                 value={formData.tanggal_akhir}
                 onChange={handleInputChange}
+                onKeyDown={(e) => e.preventDefault()}
                 required
               />
             </Form.Group>

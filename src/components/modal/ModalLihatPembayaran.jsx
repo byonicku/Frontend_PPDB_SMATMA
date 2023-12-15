@@ -3,7 +3,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useMutation } from "@tanstack/react-query";
 import APIPembayaran from "../../api/APIPembayaran";
 import { toast } from "sonner";
-import { FaEdit, FaEye } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { getPicture } from "../../api/APIConstant";
 
 const ModalLihatPembayaran = ({ data, onClose }) => {

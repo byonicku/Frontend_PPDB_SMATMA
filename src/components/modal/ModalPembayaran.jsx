@@ -115,6 +115,7 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
                 min={tanggal_awal}
                 max={tanggal_akhir}
                 onChange={handleInputChange}
+                onKeyDown={(e) => e.preventDefault()}
                 required
               />
             </Form.Group>

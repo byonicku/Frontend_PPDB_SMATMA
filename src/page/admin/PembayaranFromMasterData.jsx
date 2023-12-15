@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import ModalPembayaran from "../../components/modal/ModalPembayaran";
 import APIMethod from "../../api/APIMethod";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";

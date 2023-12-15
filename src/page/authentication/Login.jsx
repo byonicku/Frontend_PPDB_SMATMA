@@ -101,9 +101,6 @@ const Login = () => {
                         <div className="mb-3 w-75 mx-auto text-end">
                             <Link to="/register" style={{ color: '#494747' }}>Tidak punya akun?</Link>
                         </div>
-                        <div className="text-center" style={{ paddingTop: '100px', paddingBottom: '20px' }}>
-                            <Link to="/forgotpassword" style={{ fontSize: '18px', color: 'dimgray' }}>Forgot your password?</Link>
-                        </div>
                         <div className="text-center">
                             <button type="submit" className="btn custom-btn px-5" disabled={loading}>{loading ? 'Loading...' : 'Sign In'}</button>
                         </div>
