@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaCheck } from "react-icons/fa";
 import { cities, provinces } from "../../constant/input_constant.jsx";
 import { useMutation } from "@tanstack/react-query";
 
@@ -56,6 +56,10 @@ const ProfileFromMasterData = () => {
   const handleUserEdit = () => {
     setEditUser(!editUser);
     setFormUserData(user.data_user);
+  };
+
+  const handleOrtuEdit = () => {
+    setEditOrtu(!editOrtu);
     setFormDataOrtu(user.ayah || user.ibu || user.wali);
   };
 
@@ -105,35 +109,49 @@ const ProfileFromMasterData = () => {
     fetchData();
   }, [id_user, navigate]);
 
-  const dataUserQuery = useMutation(
-    {
-      mutationFn: (data) => APIMethod.updateBerkas(data, user.data_user.id_data_user),
-      onSuccess: (data) => {
-        toast.success("Data berhasil diubah!");
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-      onMutate: () => {
-        setLoading(true);
-      }
-    }
-  );
+  const dataUserQuery = useMutation({
+    mutationFn: (data) =>
+      APIMethod.updateBerkas(data, user.data_user.id_data_user),
+    onSuccess: (data) => {
+      toast.success("Data berhasil diubah!");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setLoading(false);
+    },
+    onMutate: () => {
+      setLoading(true);
+    },
+  });
 
-  const dataOrtuQuery = useMutation(
-    {
-      mutationFn: (data) => APIMethod.updateBerkasOrtu(data, jenisOrtu, ortu),
-      onSuccess: (data) => {
-        toast.success("Data berhasil diubah!");
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-      onMutate: () => {
-        setLoading(true);
-      }
-    }
-  );
+  const dataOrtuQuery = useMutation({
+    mutationFn: (data) => APIMethod.updateBerkasOrtu(data, jenisOrtu, ortu),
+    onSuccess: (data) => {
+      toast.success("Data berhasil diubah!");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setLoading(false);
+    },
+    onMutate: () => {
+      setLoading(true);
+    },
+  });
+
+  const acceptQuery = useMutation({
+    mutationFn: (id) => APIMethod.acceptUser(user.data_user.id_data_user),
+    onSuccess: (data) => {
+      toast.success("User berhasil diterima!");
+      navigate("/masterdata");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setLoading(false);
+    },
+    onMutate: () => {
+      setLoading(true);
+    },
+  });
 
   const handleFormUserSubmit = async (e) => {
     e.preventDefault();
@@ -147,7 +165,7 @@ const ProfileFromMasterData = () => {
       setLoading(false);
       await refreshProfile();
     }
-  }
+  };
 
   const handleFormOrtuSubmit = async (e) => {
     e.preventDefault();
@@ -161,10 +179,22 @@ const ProfileFromMasterData = () => {
       setLoading(false);
       await refreshProfile();
     }
-  }
+  };
 
-  console.log(formDataOrtu);
-  console.log(formUserData);
+  const handleAccept = async (e) => {
+    e.preventDefault();
+
+    try {
+      await acceptQuery.mutateAsync(id_user);
+      toast.success("User berhasil diterima!");
+      navigate("/masterdata");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  console.log(ortu);
+
   return !loading ? (
     <div className="container">
       <Link
@@ -241,6 +271,14 @@ const ProfileFromMasterData = () => {
                 id={user.data_user.id_data_user}
                 onClose={refreshProfile}
               />
+              <button
+                className="btn btn-success ms-1"
+                onClick={handleAccept}
+                disabled={user.data_user.status === "Accepted"}
+              >
+                <FaCheck className="me-1 mb-1" />
+                Terima
+              </button>
             </>
           ) : (
             <h2 className="text-left">Belum isi berkas</h2>
@@ -251,9 +289,11 @@ const ProfileFromMasterData = () => {
       <div className="container">
         <h3>
           Data Diri{" "}
-          <div className="btn btn-primary py-1 mb-1" onClick={handleUserEdit}>
-            <FaEdit className="mb-1" /> Edit
-          </div>
+          {user.data_user.status !== "Belum Input Berkas" ? (
+            <div className="btn btn-primary py-1 mb-1" onClick={handleUserEdit}>
+              <FaEdit className="mb-1" /> Edit
+            </div>
+          ) : null}
         </h3>
         <form onSubmit={handleFormUserSubmit}>
           <div className="row">
@@ -560,96 +600,342 @@ const ProfileFromMasterData = () => {
         <hr />
         {isRegistered && (
           <>
-            <h3>
-              Data {jenisOrtu}{" "}
-              <div className="btn btn-primary py-1 mb-1">
-                <FaEdit className="mb-1" /> Edit
-              </div>
-            </h3>
-            <div className="row">
-              <div className="col-md-6 border-end">
-                <div className="mb-3">
-                  <strong>Nama Lengkap:</strong>
-                  <p>{ortu.name}</p>
+            <form onSubmit={handleFormOrtuSubmit}>
+              <h3>
+                Data {jenisOrtu}{" "}
+                <div
+                  className="btn btn-primary py-1 mb-1"
+                  onClick={handleOrtuEdit}
+                >
+                  <FaEdit className="mb-1" /> Edit
                 </div>
-                <div className="mb-3">
-                  <strong>Tempat Lahir:</strong>
-                  <p>{ortu.tempatlahir}</p>
-                </div>
-                <div className="mb-3">
-                  <strong>Agama:</strong>
-                  <p>{ortu.agama}</p>
-                </div>
-                <div className="mb-3">
-                  <strong>Alamat:</strong>
-                  <p>{ortu.alamat}</p>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
+              </h3>
+              <div className="row">
+                <div className="col-md-6 border-end">
+                  <div className="mb-3">
+                    <strong>Nama Lengkap:</strong>
+                    {editOrtu ? (
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="name"
+                        name="name"
+                        defaultValue={ortu.name}
+                        onChange={handleInputOrtuChange}
+                        required
+                      />
+                    ) : (
+                      <p>{ortu.name}</p>
+                    )}
+                  </div>
+                  <div className="mb-3">
+                    <strong>Tempat Lahir:</strong>
+                    {editOrtu ? (
+                      <select
+                        className="form-select"
+                        id="tempatlahir"
+                        name="tempatlahir"
+                        defaultValue={ortu.tempatlahir}
+                        onChange={handleInputOrtuChange}
+                        required
+                      >
+                        {cities.map((city) => (
+                          <option key={city} value={city}>
+                            {city}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <p>{ortu.tempatlahir}</p>
+                    )}
+                  </div>
+                  <div className="mb-3">
+                    <strong>Agama:</strong>
+                    {editOrtu ? (
+                      <select
+                        className="form-select"
+                        id="agama"
+                        name="agama"
+                        defaultValue={ortu.agama}
+                        onChange={handleInputOrtuChange}
+                        required
+                      >
+                        <option value="Islam">Islam</option>
+                        <option value="Kristen">Kristen</option>
+                        <option value="Katholik">Katholik</option>
+                        <option value="Hindu">Hindu</option>
+                        <option value="Buddha">Buddha</option>
+                        <option value="Konghucu">Konghucu</option>
+                      </select>
+                    ) : (
+                      <p>{ortu.agama}</p>
+                    )}
+                  </div>
+                  <div className="mb-3">
+                    <strong>Alamat:</strong>
+                    {editOrtu ? (
+                      <textarea
+                        className="form-control"
+                        id="alamat"
+                        name="alamat"
+                        defaultValue={ortu.alamat}
+                        onChange={handleInputOrtuChange}
+                        required
+                      />
+                    ) : (
+                      <p>{ortu.alamat}</p>
+                    )}
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <strong>RT:</strong>
+                        {editOrtu ? (
+                          <input
+                            type="number"
+                            className="form-control"
+                            id="rt"
+                            name="rt"
+                            defaultValue={ortu.rt}
+                            onChange={handleInputOrtuChange}
+                            required
+                          />
+                        ) : (
+                          <p>{ortu.rt}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <strong>RW:</strong>
+                        {editOrtu ? (
+                          <input
+                            type="number"
+                            className="form-control"
+                            id="rw"
+                            name="rw"
+                            defaultValue={ortu.rw}
+                            onChange={handleInputOrtuChange}
+                            required
+                          />
+                        ) : (
+                          <p>{ortu.rw}</p>
+                        )}
+                      </div>
+                    </div>
                     <div className="mb-3">
-                      <strong>RT:</strong>
-                      <p>{ortu.rt}</p>
+                      <strong>Nomor Telepon:</strong>
+                      {editOrtu ? (
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="no_telp"
+                          name="no_telp"
+                          defaultValue={ortu.no_telp}
+                          onChange={handleInputOrtuChange}
+                          required
+                        />
+                      ) : (
+                        <p>{ortu.no_telp}</p>
+                      )}
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="mb-3">
-                      <strong>RW:</strong>
-                      <p>{ortu.rw}</p>
+                </div>
+                <div className="col-md-6">
+                  <div className="mb-3">
+                    <strong>Provinsi:</strong>
+                    {editOrtu ? (
+                      <select
+                        className="form-select"
+                        id="provinsi"
+                        name="provinsi"
+                        defaultValue={ortu.provinsi}
+                        onChange={handleInputOrtuChange}
+                        required
+                      >
+                        {provinces.map((province) => (
+                          <option key={province} value={province}>
+                            {province}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <p>{ortu.provinsi}</p>
+                    )}
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <strong>Kabupaten/Kota:</strong>
+                        {editOrtu ? (
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="kota"
+                            name="kota"
+                            placeholder="Kabupaten/Kota"
+                            defaultValue={ortu.kota}
+                            onChange={handleInputOrtuChange}
+                            required
+                          />
+                        ) : (
+                          <p>{ortu.kota}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <strong>Kecamatan:</strong>
+                        {editOrtu ? (
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="kecamatan"
+                            name="kecamatan"
+                            placeholder="Kecamatan"
+                            defaultValue={ortu.kecamatan}
+                            onChange={handleInputOrtuChange}
+                            required
+                          />
+                        ) : (
+                          <p>{ortu.kecamatan}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <strong>Kelurahan/Desa:</strong>
+                        {editOrtu ? (
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="kelurahan"
+                            name="kelurahan"
+                            placeholder="Kelurahan/Desa"
+                            defaultValue={ortu.kelurahan}
+                            onChange={handleInputOrtuChange}
+                            required
+                          />
+                        ) : (
+                          <p>{ortu.kelurahan}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <strong>Kode Pos:</strong>
+                        {editOrtu ? (
+                          <input
+                            type="number"
+                            className="form-control"
+                            id="kode_pos"
+                            name="kode_pos"
+                            placeholder="Kode Pos"
+                            defaultValue={ortu.kode_pos}
+                            onChange={handleInputOrtuChange}
+                            required
+                          />
+                        ) : (
+                          <p>{ortu.kode_pos}</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="mb-3">
-                    <strong>Nomor Telepon:</strong>
-                    <p>{ortu.no_telp}</p>
+                    <strong>Pendidikan Terakhir:</strong>
+                    {editOrtu ? (
+                      <select
+                        className="form-select"
+                        id="pendidikan_terakhir"
+                        name="pendidikan_terakhir"
+                        defaultValue={ortu.pendidikan_terakhir}
+                        onChange={handleInputOrtuChange}
+                        required
+                      >
+                        <option value="SD">SD</option>
+                        <option value="SLTP">SLTP</option>
+                        <option value="SLTA">SLTA</option>
+                        <option value="D3">D3</option>
+                        <option value="S1">S1</option>
+                        <option value="S2">S2</option>
+                        <option value="S3">S3</option>
+                      </select>
+                    ) : (
+                      <p>{ortu.pendidikan_terakhir}</p>
+                    )}
                   </div>
+                  <div className="mb-3">
+                    <strong>Pekerjaan:</strong>
+                    {editOrtu ? (
+                      <select
+                        className="form-select"
+                        id="pekerjaan"
+                        name="pekerjaan"
+                        defaultValue={ortu.pekerjaan}
+                        onChange={handleInputOrtuChange}
+                        required
+                      >
+                        <option value="PNS">Pegawai Negeri Sipil</option>
+                        <option value="Swasta">Karyawan Swasta</option>
+                        <option value="Wiraswasta">Wiraswasta</option>
+                        <option value="Guru / Dosen">Guru / Dosen</option>
+                        <option value="Dokter">Dokter</option>
+                        <option value="Perawat">Perawat</option>
+                        <option value="TNI/Polri">TNI/Polri</option>
+                        <option value="Wiraswasta">Wiraswasta</option>
+                        <option value="Pengusaha">Pengusaha</option>
+                        <option value="Penyiar">Penyiar</option>
+                        <option value="Polisi">Polisi</option>
+                        <option value="Peternak">Peternak</option>
+                        <option value="Pensiunan">Pensiunan</option>
+                        <option value="Buruh Lepas">Buruh Lepas</option>
+                      </select>
+                    ) : (
+                      <p>{ortu.pekerjaan}</p>
+                    )}
+                  </div>
+                  <div className="mb-3">
+                    <strong>Penghasilan:</strong>
+                    {editOrtu ? (
+                      <select
+                        className="form-select"
+                        id="penghasilan"
+                        name="penghasilan"
+                        defaultValue={ortu.penghasilan}
+                        onChange={handleInputOrtuChange}
+                        required
+                      >
+                        <option value="< Rp. 1.000.000"> Rp. 1.000.000</option>
+                        <option value="Rp 1.000.000 - Rp. 3.000.000">
+                          Rp 1.000.000 - Rp. 3.000.000
+                        </option>
+                        <option value="Rp 3.000.000 - Rp. 5.000.000">
+                          Rp 3.000.000 - Rp. 5.000.000
+                        </option>
+                        <option value="Rp 5.000.000 - Rp. 7.000.000">
+                          Rp 5.000.000 - Rp. 7.000.000
+                        </option>
+                        <option value="> Rp 7.000.000"> Rp. 7.000.000</option>
+                      </select>
+                    ) : (
+                      <p>{ortu.penghasilan}</p>
+                    )}
+                  </div>
+                  {editOrtu && (
+                    <button
+                      type="submit"
+                      className="btn shadow-sm w-100"
+                      style={{ backgroundColor: "#CCFFD1" }}
+                      disabled={loading}
+                    >
+                      Submit
+                    </button>
+                  )}
                 </div>
               </div>
-              <div className="col-md-6">
-                <div className="mb-3">
-                  <strong>Provinsi:</strong>
-                  <p>{ortu.provinsi}</p>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="mb-3">
-                      <strong>Kabupaten/Kota:</strong>
-                      <p>{ortu.kota}</p>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="mb-3">
-                      <strong>Kecamatan:</strong>
-                      <p>{ortu.kecamatan}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="mb-3">
-                      <strong>Kelurahan/Desa:</strong>
-                      <p>{ortu.kelurahan}</p>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="mb-3">
-                      <strong>Kode Pos:</strong>
-                      <p>{ortu.kode_pos}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <strong>Pendidikan Terakhir:</strong>
-                  <p>{ortu.pendidikan_terakhir}</p>
-                </div>
-                <div className="mb-3">
-                  <strong>Pekerjaan:</strong>
-                  <p>{ortu.pekerjaan}</p>
-                </div>
-                <div className="mb-3">
-                  <strong>Penghasilan:</strong>
-                  <p>{ortu.penghasilan}</p>
-                </div>
-              </div>
-            </div>
+            </form>
             <hr />
             <h3>
               Ijazah
@@ -677,4 +963,5 @@ const ProfileFromMasterData = () => {
     </div>
   );
 };
+
 export default ProfileFromMasterData;

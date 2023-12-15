@@ -93,19 +93,19 @@ const updateBerkasOrtu = async (data, pick, ortu) => {
   switch (pick) {
     case "Ayah":
       endpoint = "/data-ayah";
-      id = ortu.data_ayah.id_data_ayah;
+      id = ortu.id_data_ayah;
       break;
     case "Ibu":
       endpoint = "/data-ibu";
-      id = ortu.data_ibu.id_data_ibu;
+      id = ortu.id_data_ibu;
       break;
     case "Wali":
       endpoint = "/data-wali";
-      id = ortu.data_wali.id_data_wali;
+      id = ortu.id_data_wali;
       break;
   }
 
-  endpoint += `/update/${id}?_method=PUT`
+  endpoint += `/${id}?_method=PUT`
 
   try {
     const response = await useAxios.put(endpoint, data, {
@@ -184,6 +184,20 @@ const getHistoryByUser = async (id) => {
   }
 };
 
+const acceptUser = async (id) => { 
+  try {
+    const response = await useAxios.post(`/data-user/accept/${id}`, null, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+}
+
 const APIMethod = {
   getAllUser,
   getUserByID,
@@ -195,6 +209,7 @@ const APIMethod = {
   updateIjazah,
   getPembayaranByUser,
   getHistoryByUser,
+  acceptUser
 };
 
 export default APIMethod;
