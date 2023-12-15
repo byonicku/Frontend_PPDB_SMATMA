@@ -28,6 +28,7 @@ import Diterima from "../status/Diterima.jsx";
 import BelumInput from "../status/BelumInput.jsx";
 import MasterData from "../admin/MasterData.jsx";
 import ProfileFromMasterData from "../admin/ProfileFromMasterData.jsx";
+import PembayaranFromMasterData from "../admin/PembayaranFromMasterData.jsx";
 
 const queryClient = new QueryClient();
 
@@ -150,6 +151,14 @@ function LandingPage() {
               element={
                 <AdminRoutes>
                   <ProfileFromMasterData />
+                </AdminRoutes>
+              }
+            />
+            <Route
+              path="/masterdata/profile/pembayaran/:id_user"
+              element={
+                <AdminRoutes>
+                  <PembayaranFromMasterData />
                 </AdminRoutes>
               }
             />

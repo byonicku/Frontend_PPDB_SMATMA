@@ -141,7 +141,7 @@ const ModalPembayaran = ({ id, onClose }) => {
           </Form>
             {error && (
                 <div className="alert alert-danger mt-2" role="alert">
-                {error}
+                  {error}
                 </div>
             )}
         </Modal.Body>

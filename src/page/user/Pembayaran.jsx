@@ -44,9 +44,6 @@ const Pembayaran = () => {
     fetchData();
   }, []);
 
-  console.log(billingData);
-  console.log(paymentHistoryData);
-
   return !loading ? (
     <div className="container mb-3">
       <div className="card">

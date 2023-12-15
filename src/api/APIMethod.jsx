@@ -29,6 +29,20 @@ const getUserByID = async (id) => {
   }
 };
 
+const updateBerkas = async (data, id) => {
+  try {
+    const response = await useAxios.post(`/data-user/updateBerkas/${id}?_method=PUT`, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 const submitBerkas = async (data) => {
   const id = JSON.parse(getUser()).data_user.id_data_user;
   try {
@@ -72,10 +86,62 @@ const submitBerkasOrtu = async (data, pick) => {
   }
 };
 
+const updateBerkasOrtu = async (data, pick, ortu) => {
+  let endpoint = "";
+  let id;
+
+  switch (pick) {
+    case "Ayah":
+      endpoint = "/data-ayah";
+      id = ortu.data_ayah.id_data_ayah;
+      break;
+    case "Ibu":
+      endpoint = "/data-ibu";
+      id = ortu.data_ibu.id_data_ibu;
+      break;
+    case "Wali":
+      endpoint = "/data-wali";
+      id = ortu.data_wali.id_data_wali;
+      break;
+  }
+
+  endpoint += `/update/${id}?_method=PUT`
+
+  try {
+    const response = await useAxios.put(endpoint, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 const updateProfilePicture = async (data, id) => {
   try {
     const response = await useAxios.post(
       `/data-user/updateProfile/${id}?_method=PUT`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+const updateIjazah = async (data, id) => {
+  try {
+    const response = await useAxios.post(
+      `/data-user/updateIjazah/${id}?_method=PUT`,
       data,
       {
         headers: {
@@ -121,9 +187,12 @@ const getHistoryByUser = async (id) => {
 const APIMethod = {
   getAllUser,
   getUserByID,
+  updateBerkas,
   submitBerkas,
   submitBerkasOrtu,
+  updateBerkasOrtu,
   updateProfilePicture,
+  updateIjazah,
   getPembayaranByUser,
   getHistoryByUser,
 };

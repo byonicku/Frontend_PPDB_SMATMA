@@ -1,14 +1,16 @@
 import getUser, { berkasInputted } from "../../api/UserHandler";
 import default_avatar from "./../../assets/default-avatar.jpg";
 import { getPicture } from "../../api/APIConstant";
-import './Profile.css';
+import "./Profile.css";
 import ModalChangePhoto from "../../components/modal/ModalChangePhoto";
 import { setUser } from "../../api/UserHandler";
 import APIMethod from "../../api/APIMethod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
   const [currentUser, setCurrentUser] = useState(JSON.parse(getUser()));
+  const [ortu, setOrtu] = useState([]);
+  const [jenisOrtu, setJenisOrtu] = useState("");
   const isRegistered = !berkasInputted();
 
   const refreshProfile = async () => {
@@ -17,7 +19,31 @@ const Profile = () => {
     delete user.message;
     setUser(JSON.stringify(user));
     setCurrentUser(user);
-  }
+
+    if (user.ayah) {
+      setJenisOrtu("Ayah");
+      setOrtu(user.ayah);
+    } else if (user.ibu) {
+      setJenisOrtu("Ibu");
+      setOrtu(user.ibu);
+    } else if (user.wali) {
+      setJenisOrtu("Wali");
+      setOrtu(user.wali);
+    }
+  };
+
+  useEffect(() => {
+    if (currentUser.ayah) {
+      setJenisOrtu("Ayah");
+      setOrtu(currentUser.ayah);
+    } else if (currentUser.ibu) {
+      setJenisOrtu("Ibu");
+      setOrtu(currentUser.ibu);
+    } else if (currentUser.wali) {
+      setJenisOrtu("Wali");
+      setOrtu(currentUser.wali);
+    }
+  }, [currentUser]);
 
   return (
     <div className="container">
@@ -49,8 +75,8 @@ const Profile = () => {
                 <strong>{currentUser.data_user.jurusan}</strong>
               </h1>
               <h2 className="text-left">{currentUser.data.status}</h2>
-              <ModalChangePhoto 
-                id = {currentUser.data_user.id_data_user}
+              <ModalChangePhoto
+                id={currentUser.data_user.id_data_user}
                 onClose={refreshProfile}
               />
             </>
@@ -72,7 +98,11 @@ const Profile = () => {
                 </div>
                 <div className="mb-3">
                   <strong>Tanggal Lahir:</strong>
-                  <p>{currentUser.data_user.tanggallahir}</p>
+                  <p>
+                    {new Date(
+                      currentUser.data_user.tanggallahir
+                    ).toLocaleDateString("id-ID")}
+                  </p>
                 </div>
                 <div className="mb-3">
                   <strong>Tempat Lahir:</strong>
@@ -81,6 +111,10 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Agama:</strong>
                   <p>{currentUser.data_user.agama}</p>
+                </div>
+                <div className="mb-3">
+                  <strong>Jenis Kelamin:</strong>
+                  <p>{currentUser.data_user.jenis_kelamin}</p>
                 </div>
                 <div className="mb-3">
                   <strong>Alamat:</strong>
@@ -158,274 +192,94 @@ const Profile = () => {
         <hr />
         {isRegistered && (
           <>
-            {currentUser.wali ? (
-              <>
-                <h3>Data Wali</h3>
+            <h3>Data {jenisOrtu} </h3>
+            <div className="row">
+              <div className="col-md-6 border-end">
+                <div className="mb-3">
+                  <strong>Nama Lengkap:</strong>
+                  <p>{ortu.name}</p>
+                </div>
+                <div className="mb-3">
+                  <strong>Tempat Lahir:</strong>
+                  <p>{ortu.tempatlahir}</p>
+                </div>
+                <div className="mb-3">
+                  <strong>Agama:</strong>
+                  <p>{ortu.agama}</p>
+                </div>
+                <div className="mb-3">
+                  <strong>Alamat:</strong>
+                  <p>{ortu.alamat}</p>
+                </div>
                 <div className="row">
-                  <div className="col-md-6 border-end">
+                  <div className="col-md-6">
                     <div className="mb-3">
-                      <strong>Nama Lengkap:</strong>
-                      <p>{currentUser.wali.name}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Tempat Lahir:</strong>
-                      <p>{currentUser.wali.tempatlahir}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Agama:</strong>
-                      <p>{currentUser.wali.agama}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Alamat:</strong>
-                      <p>{currentUser.wali.alamat}</p>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>RT:</strong>
-                          <p>{currentUser.wali.rt}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>RW:</strong>
-                          <p>{currentUser.wali.rw}</p>
-                        </div>
-                      </div>
-                      <div className="mb-3">
-                        <strong>Nomor Telepon:</strong>
-                        <p>{currentUser.wali.no_telp}</p>
-                      </div>
+                      <strong>RT:</strong>
+                      <p>{ortu.rt}</p>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="mb-3">
-                      <strong>Provinsi:</strong>
-                      <p>{currentUser.wali.provinsi}</p>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kabupaten/Kota:</strong>
-                          <p>{currentUser.wali.kota}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kecamatan:</strong>
-                          <p>{currentUser.wali.kecamatan}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kelurahan/Desa:</strong>
-                          <p>{currentUser.wali.kelurahan}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kode Pos:</strong>
-                          <p>{currentUser.wali.kode_pos}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Pendidikan Terakhir:</strong>
-                      <p>{currentUser.wali.pendidikan_terakhir}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Pekerjaan:</strong>
-                      <p>{currentUser.wali.pekerjaan}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Penghasilan:</strong>
-                      <p>{currentUser.wali.penghasilan}</p>
+                      <strong>RW:</strong>
+                      <p>{ortu.rw}</p>
                     </div>
                   </div>
+                  <div className="mb-3">
+                    <strong>Nomor Telepon:</strong>
+                    <p>{ortu.no_telp}</p>
+                  </div>
                 </div>
-              </>
-            ) : currentUser.ibu ? (
-              <>
-                <h3>Data Ibu</h3>
+              </div>
+              <div className="col-md-6">
+                <div className="mb-3">
+                  <strong>Provinsi:</strong>
+                  <p>{ortu.provinsi}</p>
+                </div>
                 <div className="row">
-                <div className="col-md-6 border-end">
+                  <div className="col-md-6">
                     <div className="mb-3">
-                      <strong>Nama Lengkap:</strong>
-                      <p>{currentUser.ibu.name}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Tempat Lahir:</strong>
-                      <p>{currentUser.ibu.tempatlahir}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Agama:</strong>
-                      <p>{currentUser.ibu.agama}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Alamat:</strong>
-                      <p>{currentUser.ibu.alamat}</p>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>RT:</strong>
-                          <p>{currentUser.ibu.rt}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>RW:</strong>
-                          <p>{currentUser.ibu.rw}</p>
-                        </div>
-                      </div>
-                      <div className="mb-3">
-                        <strong>Nomor Telepon:</strong>
-                        <p>{currentUser.ibu.no_telp}</p>
-                      </div>
+                      <strong>Kabupaten/Kota:</strong>
+                      <p>{ortu.kota}</p>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="mb-3">
-                      <strong>Provinsi:</strong>
-                      <p>{currentUser.ibu.provinsi}</p>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kabupaten/Kota:</strong>
-                          <p>{currentUser.ibu.kota}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kecamatan:</strong>
-                          <p>{currentUser.ibu.kecamatan}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kelurahan/Desa:</strong>
-                          <p>{currentUser.ibu.kelurahan}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kode Pos:</strong>
-                          <p>{currentUser.ibu.kode_pos}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Pendidikan Terakhir:</strong>
-                      <p>{currentUser.ibu.pendidikan_terakhir}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Pekerjaan:</strong>
-                      <p>{currentUser.ibu.pekerjaan}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Penghasilan:</strong>
-                      <p>{currentUser.ibu.penghasilan}</p>
+                      <strong>Kecamatan:</strong>
+                      <p>{ortu.kecamatan}</p>
                     </div>
                   </div>
                 </div>
-              </>
-            ) : (
-              <>
-                <h3>Data Ayah</h3>
                 <div className="row">
-                <div className="col-md-6 border-end">
+                  <div className="col-md-6">
                     <div className="mb-3">
-                      <strong>Nama Lengkap:</strong>
-                      <p>{currentUser.ayah.name}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Tempat Lahir:</strong>
-                      <p>{currentUser.ayah.tempatlahir}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Agama:</strong>
-                      <p>{currentUser.ayah.agama}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Alamat:</strong>
-                      <p>{currentUser.ayah.alamat}</p>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>RT:</strong>
-                          <p>{currentUser.ayah.rt}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>RW:</strong>
-                          <p>{currentUser.ayah.rw}</p>
-                        </div>
-                      </div>
-                      <div className="mb-3">
-                        <strong>Nomor Telepon:</strong>
-                        <p>{currentUser.ayah.no_telp}</p>
-                      </div>
+                      <strong>Kelurahan/Desa:</strong>
+                      <p>{ortu.kelurahan}</p>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="mb-3">
-                      <strong>Provinsi:</strong>
-                      <p>{currentUser.ayah.provinsi}</p>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kabupaten/Kota:</strong>
-                          <p>{currentUser.ayah.kota}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kecamatan:</strong>
-                          <p>{currentUser.ayah.kecamatan}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kelurahan/Desa:</strong>
-                          <p>{currentUser.ayah.kelurahan}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="mb-3">
-                          <strong>Kode Pos:</strong>
-                          <p>{currentUser.ayah.kode_pos}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Pendidikan Terakhir:</strong>
-                      <p>{currentUser.ayah.pendidikan_terakhir}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Pekerjaan:</strong>
-                      <p>{currentUser.ayah.pekerjaan}</p>
-                    </div>
-                    <div className="mb-3">
-                      <strong>Penghasilan:</strong>
-                      <p>{currentUser.ayah.penghasilan}</p>
+                      <strong>Kode Pos:</strong>
+                      <p>{ortu.kode_pos}</p>
                     </div>
                   </div>
                 </div>
-              </>
-            )}
+                <div className="mb-3">
+                  <strong>Pendidikan Terakhir:</strong>
+                  <p>{ortu.pendidikan_terakhir}</p>
+                </div>
+                <div className="mb-3">
+                  <strong>Pekerjaan:</strong>
+                  <p>{ortu.pekerjaan}</p>
+                </div>
+                <div className="mb-3">
+                  <strong>Penghasilan:</strong>
+                  <p>{ortu.penghasilan}</p>
+                </div>
+              </div>
+            </div>
             <hr />
             <h3>Ijazah</h3>
-            <img 
+            <img
               src={getPicture(currentUser.data_user.ijazah)}
               alt="Ijazah"
               className="img-fluid"

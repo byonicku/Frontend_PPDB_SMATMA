@@ -8,7 +8,7 @@ import APIMethod from "../../api/APIMethod";
 
 // ku males convert ke react-bootstrap karena ribet setup nya jadi ku pake khusus di modal aja :v
 
-const ModalChangePhoto = ({ id, onClose }) => {
+const ModalChangeIjazah = ({ id, onClose }) => {
   const [error, setError] = useState(null);
   const [foto, setFoto] = useState({ foto: null });
   const [loading, setLoading] = useState(false);
@@ -29,10 +29,10 @@ const ModalChangePhoto = ({ id, onClose }) => {
   };
 
   const profilePicQuery = useMutation({
-    mutationFn: (data) => APIMethod.updateProfilePicture(data, id),
+    mutationFn: (data) => APIMethod.updateIjazah(data, id),
     onSuccess: (data) => {
       onClose();
-      toast.success("Foto berhasil diubah!");
+      toast.success("Ijazah berhasil diubah!");
       setLoading(false);
       setFoto({ ...foto, foto: null });
       setError(null);
@@ -56,8 +56,8 @@ const ModalChangePhoto = ({ id, onClose }) => {
       data[key] = value;
     });
 
-    if (data.foto.name === '') {
-      setError("Foto tidak boleh kosong!");
+    if (data.ijazah.name === '') {
+      setError("Ijazah tidak boleh kosong!");
       return;
     }
 
@@ -67,13 +67,13 @@ const ModalChangePhoto = ({ id, onClose }) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        <FaEdit className="mb-1" /> Ubah Pas Foto
+      <Button variant="primary" className="py-1 ms-1 mb-1" onClick={handleShow}>
+        <FaEdit className="mb-1" /> Ubah Ijazah
       </Button>
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Ubah Pas Foto</Modal.Title>
+          <Modal.Title>Ubah Ijazah</Modal.Title>
         </Modal.Header>
         <form onSubmit={handleSubmit}>
           <Modal.Body>
@@ -82,8 +82,8 @@ const ModalChangePhoto = ({ id, onClose }) => {
                 type="file"
                 accept="image/*"
                 className="form-control"
-                id="foto"
-                name="foto"
+                id="ijazah"
+                name="ijazah"
                 onChange={handleFileChange}
               />
               {error && (
@@ -119,4 +119,4 @@ const ModalChangePhoto = ({ id, onClose }) => {
   );
 };
 
-export default ModalChangePhoto;
+export default ModalChangeIjazah;
