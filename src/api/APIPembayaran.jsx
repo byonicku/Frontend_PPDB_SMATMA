@@ -15,6 +15,20 @@ const tambahPembayaran = async (data) => {
   }
 };
 
+const tambahSemuaPembayaran = async (data) => {
+  try {
+    const response = await useAxios.post("/pembayaran/all", data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 const editPembayaran = async (data, id) => {
   try {
     const response = await useAxios.put(
@@ -129,6 +143,7 @@ const finishPembayaran = async (id) => {
 
 const APIPembayaran = {
   tambahPembayaran,
+  tambahSemuaPembayaran,
   editPembayaran,
   deletePembayaran,
   acceptPembayaran,

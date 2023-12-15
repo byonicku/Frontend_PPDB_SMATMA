@@ -41,7 +41,7 @@ const ModalAddPembayaran = ({ id_user, onClose }) => {
 
   const isFormValid = () => {
     for (const key in formData) {
-      if (formData[key] === "" || formData[key] === null) {
+      if (formData[key] === "" || formData[key] === null || formData[key] === 0) {
         return false;
       }
     }

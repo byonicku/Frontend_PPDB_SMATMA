@@ -71,7 +71,7 @@ const ModalLihatPembayaran = ({ data, onClose }) => {
             <div className="alert alert-danger">
               Pembayaran ini ditolak oleh admin!
             </div>
-          ) : data.status_pembayaran === null ? (
+          ) : data.status_pembayaran !== null ? (
             <>
               <div className="row">
                 <div className="col-md-12 col-lg-6 border-end">

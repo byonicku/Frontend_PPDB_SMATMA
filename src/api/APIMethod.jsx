@@ -29,6 +29,20 @@ const getUserByID = async (id) => {
   }
 };
 
+const deleteUser = async (id) => {
+  try {
+    const response = await useAxios.delete(`/user/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error.response;
+  }
+}
+
 const updateBerkas = async (data, id) => {
   try {
     const response = await useAxios.post(`/data-user/updateBerkas/${id}?_method=PUT`, data, {
@@ -201,6 +215,7 @@ const acceptUser = async (id) => {
 const APIMethod = {
   getAllUser,
   getUserByID,
+  deleteUser,
   updateBerkas,
   submitBerkas,
   submitBerkasOrtu,

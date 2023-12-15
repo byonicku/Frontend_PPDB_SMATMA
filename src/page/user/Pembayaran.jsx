@@ -82,7 +82,11 @@ const Pembayaran = () => {
                       })}
                     </td>
                     <td>
-                      {item.status_pembayaran}
+                      {item.status_pembayaran === null ? (
+                        "Menunggu Pembayaran"
+                      ) : (
+                        `${item.status_pembayaran}`
+                      )}
                     </td>
                     <td>                      
                       {

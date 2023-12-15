@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
-import { FaEdit, FaCheck } from "react-icons/fa";
+import { FaEdit, FaCheck, FaTrash } from "react-icons/fa";
 import { cities, provinces } from "../../constant/input_constant.jsx";
 import { useMutation } from "@tanstack/react-query";
 
@@ -19,7 +19,6 @@ const ProfileFromMasterData = () => {
   const [ortu, setOrtu] = useState([]);
   const [jenisOrtu, setJenisOrtu] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [editUser, setEditUser] = useState(false);
   const [editOrtu, setEditOrtu] = useState(false);
   const [formUserData, setFormUserData] = useState([]);
@@ -62,6 +61,18 @@ const ProfileFromMasterData = () => {
   const handleOrtuEdit = () => {
     setEditOrtu(!editOrtu);
     setFormDataOrtu(user.ayah || user.ibu || user.wali);
+  };
+
+  const handleDeleteUser = async () => {
+    if (window.confirm("Apakah anda yakin ingin menghapus user ini?")) {
+      try {
+        await APIMethod.deleteUser(id_user);
+        toast.success("User berhasil dihapus!");
+        navigate("/masterdata");
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
   };
 
   const handleInputUserChange = (e) => {
@@ -959,6 +970,13 @@ const ProfileFromMasterData = () => {
           </>
         )}
       </div>
+      <div className="d-flex justify-content-end">
+        <button className="btn btn-danger" onClick={() => handleDeleteUser()}>
+          <FaTrash className="me-1 mb-1" />
+          Hapus User
+        </button>
+      </div>
+      <hr />
     </div>
   ) : (
     <div className="text-center">

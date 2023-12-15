@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import APIMethod from "../../api/APIMethod";
 import { Spinner } from "react-bootstrap";
+import ModalAddSemuaPembayaran from "../../components/modal/ModalAddSemuaPembayaran";
 
 const MasterData = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -79,13 +80,7 @@ const MasterData = () => {
         <div className="card-body">
           <div className="row">
             <div className="col-md-12 col-lg-6 mb-1 text-md-start">
-              <button
-                type="submit"
-                className="btn shadow-sm"
-                style={{ backgroundColor: "#CCFFD1" }}
-              >
-                Tambah Tagihan Semua
-              </button>
+              <ModalAddSemuaPembayaran/>
             </div>
             <div className="col-md-12 col-lg-6 text-md-end">
               <button
