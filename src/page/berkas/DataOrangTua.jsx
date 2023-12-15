@@ -162,7 +162,7 @@ function DataOrangTua() {
                       onChange={handleInputChange}
                       required
                     >
-                      <option hidden defaultValue="Jenis Kelamin">
+                      <option hidden value="">
                         Jenis Kelamin
                       </option>
                       <option value="Laki-laki">Laki-laki</option>
@@ -180,7 +180,7 @@ function DataOrangTua() {
                       onChange={handleInputChange}
                       required
                     >
-                      <option hidden defaultValue="Pilih Tempat Lahir">
+                      <option hidden value="">
                         Pilih Tempat Lahir
                       </option>
                       {cities.map((city) => (
@@ -201,7 +201,7 @@ function DataOrangTua() {
                       onChange={handleInputChange}
                       required
                     >
-                      <option hidden defaultValue="Pilih Agama">
+                      <option hidden value="">
                         Pilih Agama
                       </option>
                       <option value="Islam">Islam</option>
@@ -287,7 +287,7 @@ function DataOrangTua() {
                       onChange={handleInputChange}
                       required
                     >
-                      <option defaultValue="Pilih Provinsi" hidden>
+                      <option value="" hidden>
                         Pilih Provinsi
                       </option>
                       {provinces.map((province) => (
@@ -377,7 +377,7 @@ function DataOrangTua() {
                       onChange={handleInputChange}
                       required
                     >
-                      <option hidden defaultValue="">
+                      <option hidden value="">
                         Pilih Pendidikan Terakhir
                       </option>
                       <option value="SD">SD</option>
@@ -401,7 +401,7 @@ function DataOrangTua() {
                       onChange={handleInputChange}
                       required
                     >
-                      <option hidden defaultValue="">
+                      <option hidden value="">
                         Pilih Pekerjaan
                       </option>
                       <option value="PNS">Pegawai Negeri Sipil</option>
@@ -432,7 +432,7 @@ function DataOrangTua() {
                       onChange={handleInputChange}
                       required
                     >
-                      <option hidden defaultValue="">
+                      <option hidden value="">
                         Pilih Penghasilan
                       </option>
                       <option value="< Rp. 1.000.000"> Rp. 1.000.000</option>

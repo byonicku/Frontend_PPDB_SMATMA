@@ -28,6 +28,7 @@ const ProfileFromMasterData = () => {
 
   const refreshProfile = async () => {
     try {
+      setLoading(true);
       const user = await APIMethod.getUserByID(id_user);
       delete user.message;
       setUser(user);
@@ -114,6 +115,7 @@ const ProfileFromMasterData = () => {
       APIMethod.updateBerkas(data, user.data_user.id_data_user),
     onSuccess: (data) => {
       toast.success("Data berhasil diubah!");
+      refreshProfile();
     },
     onError: (error) => {
       toast.error(error.message);
@@ -128,6 +130,7 @@ const ProfileFromMasterData = () => {
     mutationFn: (data) => APIMethod.updateBerkasOrtu(data, jenisOrtu, ortu),
     onSuccess: (data) => {
       toast.success("Data berhasil diubah!");
+      refreshProfile();
     },
     onError: (error) => {
       toast.error(error.message);
@@ -142,7 +145,7 @@ const ProfileFromMasterData = () => {
     mutationFn: (id) => APIMethod.acceptUser(user.data_user.id_data_user),
     onSuccess: (data) => {
       toast.success("User berhasil diterima!");
-      navigate("/masterdata");
+      refreshProfile();
     },
     onError: (error) => {
       toast.error(error.message);
@@ -163,7 +166,6 @@ const ProfileFromMasterData = () => {
     } finally {
       setEditUser(false);
       setLoading(false);
-      await refreshProfile();
     }
   };
 
@@ -177,7 +179,6 @@ const ProfileFromMasterData = () => {
     } finally {
       setEditOrtu(false);
       setLoading(false);
-      await refreshProfile();
     }
   };
 
@@ -187,13 +188,10 @@ const ProfileFromMasterData = () => {
     try {
       await acceptQuery.mutateAsync(id_user);
       toast.success("User berhasil diterima!");
-      navigate("/masterdata");
     } catch (error) {
       toast.error(error.message);
     }
   };
-
-  console.log(ortu);
 
   return !loading ? (
     <div className="container">

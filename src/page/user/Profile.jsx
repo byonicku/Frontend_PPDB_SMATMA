@@ -6,46 +6,80 @@ import ModalChangePhoto from "../../components/modal/ModalChangePhoto";
 import { setUser } from "../../api/UserHandler";
 import APIMethod from "../../api/APIMethod";
 import { useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Profile = () => {
   const [currentUser, setCurrentUser] = useState(JSON.parse(getUser()));
   const [ortu, setOrtu] = useState([]);
   const [jenisOrtu, setJenisOrtu] = useState("");
+  const [loading, setLoading] = useState(true);
   const isRegistered = !berkasInputted();
+  const navigate = useNavigate();
 
   const refreshProfile = async () => {
-    const id = JSON.parse(getUser()).data.id_user;
-    const user = await APIMethod.getUserByID(id);
-    delete user.message;
-    setUser(JSON.stringify(user));
-    setCurrentUser(user);
+    try {
+      setLoading(true);
+      const id = JSON.parse(getUser()).data.id_user;
+      const user = await APIMethod.getUserByID(id);
+      delete user.message;
+      setUser(JSON.stringify(user));
+      setCurrentUser(user);
 
-    if (user.ayah) {
-      setJenisOrtu("Ayah");
-      setOrtu(user.ayah);
-    } else if (user.ibu) {
-      setJenisOrtu("Ibu");
-      setOrtu(user.ibu);
-    } else if (user.wali) {
-      setJenisOrtu("Wali");
-      setOrtu(user.wali);
+      const ortu = user.ayah || user.ibu || user.wali;
+      const jenisOrtu = user.ayah
+        ? "Ayah"
+        : user.ibu
+        ? "Ibu"
+        : user.wali
+        ? "Wali"
+        : "";
+      setOrtu(ortu);
+      setJenisOrtu(jenisOrtu);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error(error.message);
+      navigate("/");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (currentUser.ayah) {
-      setJenisOrtu("Ayah");
-      setOrtu(currentUser.ayah);
-    } else if (currentUser.ibu) {
-      setJenisOrtu("Ibu");
-      setOrtu(currentUser.ibu);
-    } else if (currentUser.wali) {
-      setJenisOrtu("Wali");
-      setOrtu(currentUser.wali);
-    }
-  }, [currentUser]);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const id = JSON.parse(getUser()).data.id_user;
+        const user = await APIMethod.getUserByID(id);
+        delete user.message;
+        setUser(JSON.stringify(user));
+        setCurrentUser(user);
 
-  return (
+        const ortu = user.ayah || user.ibu || user.wali;
+        const jenisOrtu = user.ayah
+          ? "Ayah"
+          : user.ibu
+          ? "Ibu"
+          : user.wali
+          ? "Wali"
+          : "";
+
+        setOrtu(ortu);
+        setJenisOrtu(jenisOrtu);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        toast.error(error.message);
+        navigate("/");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [navigate]);
+
+  return !loading ? (
     <div className="container">
       <div className="d-flex flex-row">
         {isRegistered ? (
@@ -288,6 +322,13 @@ const Profile = () => {
           </>
         )}
       </div>
+    </div>
+  ) : (
+    <div className="text-center">
+      <Spinner
+        animation="border"
+        style={{ color: "#0c84a4", width: "3rem", height: "3rem" }}
+      />
     </div>
   );
 };
