@@ -70,6 +70,10 @@ const ModalLihatPembayaran = ({ data, onClose }) => {
               Pembayaran ini ditolak oleh admin!
             </div>
           ) : data.status_pembayaran === "Belum Lunas" ? (
+            <div className="alert alert-warning">
+              Pembayaran ini belum dibayar oleh user!
+            </div>
+          ) : (
             <>
               <div className="row">
                 <div className="col-md-12 col-lg-6 border-end">
@@ -122,24 +126,20 @@ const ModalLihatPembayaran = ({ data, onClose }) => {
                 />
               </div>
             </>
-          ) : (
-            <div className="alert alert-warning">
-              Pembayaran ini belum dibayar oleh user!
-            </div>
           )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          {data.status_pembayaran === "Belum Lunas" &&
+          {data.status_pembayaran !== "Belum Lunas" &&
             data.status_pembayaran !== "Ditolak" && (
               <Button variant="success" onClick={handleAccept}>
                 Terima Pembayaran
               </Button>
             )}
 
-          {data.status_pembayaran === "Belum Lunas" &&
+          {data.status_pembayaran !== "Belum Lunas" &&
             data.status_pembayaran !== "Ditolak" && (
               <Button variant="danger" onClick={handleReject}>
                 Tolak Pembayaran
