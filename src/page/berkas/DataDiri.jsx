@@ -73,6 +73,18 @@ const DataDiri = () => {
         toast.error("Mohon pilih data yang ingin di-input!");
         return;
     }
+
+    if (formData.foto !== null && formData.foto.size > 256000) {
+        e.preventDefault();
+        toast.error("Ukuran foto tidak boleh lebih dari 250KB!");
+        return;
+    }
+
+    if (formData.ijazah !== null && formData.ijazah.size > 512000) {
+        e.preventDefault();
+        toast.error("Ukuran ijazah tidak boleh lebih dari 500KB!");
+        return;
+    }
   };
 
   return (
@@ -378,7 +390,7 @@ const DataDiri = () => {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="foto" className="form-label">
-                      Upload Pas Foto
+                      Upload Pas Foto (max size : 250kb)
                     </label>
                     <input
                       type="file"
@@ -391,7 +403,7 @@ const DataDiri = () => {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="ijazah" className="form-label">
-                      Upload Ijazah SMP
+                      Upload Ijazah SMP (max size : 500kb)
                     </label>
                     <input
                       type="file"

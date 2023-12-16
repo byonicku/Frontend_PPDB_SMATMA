@@ -61,6 +61,11 @@ const ModalChangePhoto = ({ id, onClose }) => {
       return;
     }
 
+    if (data.foto.size > 256000) {
+      setError("Foto tidak boleh lebih dari 250KB!");
+      return;
+    }
+
     await profilePicQuery.mutateAsync(data);
     setShowModal(false);
   };
@@ -78,6 +83,9 @@ const ModalChangePhoto = ({ id, onClose }) => {
         <form onSubmit={handleSubmit}>
           <Modal.Body>
             <div className="mb-3">
+              <label htmlFor="foto" className="form-label">
+                Foto (max size : 250kb)
+              </label>
               <input
                 type="file"
                 accept="image/*"

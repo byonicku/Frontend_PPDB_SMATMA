@@ -61,6 +61,11 @@ const ModalChangeIjazah = ({ id, onClose }) => {
       return;
     }
 
+    if (data.ijazah.size > 512000) {
+      setError("Ukuran file terlalu besar! maksimal 500kb");
+      return;
+    }
+
     await profilePicQuery.mutateAsync(data);
     setShowModal(false);
   };
@@ -78,6 +83,9 @@ const ModalChangeIjazah = ({ id, onClose }) => {
         <form onSubmit={handleSubmit}>
           <Modal.Body>
             <div className="mb-3">
+              <label htmlFor="ijazah" className="form-label">
+                Ijazah (max size : 500kb)
+              </label>
               <input
                 type="file"
                 accept="image/*"

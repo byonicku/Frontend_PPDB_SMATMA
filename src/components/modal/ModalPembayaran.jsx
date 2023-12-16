@@ -65,6 +65,11 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
           return;
       }
 
+      if (formData.bukti_pembayaran.size > 512000) {
+        setError("Ukuran file terlalu besar! maksimal 500kb");
+        return;
+      }
+
       await pembayaranQuery.mutateAsync(formData);
 
       handleClose();
@@ -144,7 +149,7 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
             </Form.Group>
 
             <Form.Group controlId="bukti_pembayaran">
-              <Form.Label>Upload Bukti Pembayaran</Form.Label>
+              <Form.Label>Upload Bukti Pembayaran (max size : 500 kb)</Form.Label>
               <Form.Control type="file" onChange={handleFileChange} accept="image/*" required/>
             </Form.Group>
           </Form>
