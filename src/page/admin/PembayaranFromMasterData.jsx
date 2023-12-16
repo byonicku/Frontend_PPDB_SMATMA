@@ -49,7 +49,7 @@ const PembayaranFromMasterData = () => {
       setLoading(true);
       await APIPembayaran.deletePembayaran(id_pembayaran);
       toast.success("Berhasil menghapus data pembayaran");
-      refreshPembayaran();
+      await refreshPembayaran();
     } catch (error) {
       console.error("Error deleting data:", error);
       toast.error("Gagal menghapus data pembayaran");

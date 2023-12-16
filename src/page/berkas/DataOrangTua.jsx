@@ -54,7 +54,7 @@ function DataOrangTua() {
 
   const dataOrtuQuery = useMutation(
     {
-      mutationFn: (data) => APIMethod.submitBerkasOrtu(data, state.content.pick),
+      mutationFn: (data) => APIMethod.submitBerkasOrtu(data, state?.content.pick),
       onSuccess: (data) => {
         toast.success("Data ortu query berhasil!");
         setTimeout(() => {
@@ -84,7 +84,7 @@ function DataOrangTua() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formDataDiri = state.content.formData;
+    const formDataDiri = state?.content.formData;
 
     const formDataOrtu = new FormData(e.target);
     const dataOrtu = {};
@@ -243,7 +243,7 @@ function DataOrangTua() {
                           RT
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           className="form-control"
                           id="rt"
                           name="rt"
@@ -259,7 +259,7 @@ function DataOrangTua() {
                           RW
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           className="form-control"
                           id="rw"
                           name="rw"
@@ -351,7 +351,8 @@ function DataOrangTua() {
                           Kode Pos
                         </label>
                         <input
-                          type="text"
+                          type="number"
+                          max={5}
                           className="form-control"
                           id="kode_pos"
                           name="kode_pos"

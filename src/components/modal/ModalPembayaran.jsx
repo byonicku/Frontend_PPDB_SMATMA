@@ -10,6 +10,7 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   
   const [formData, setFormData] = useState({
     nama_pengirim: "",
@@ -57,14 +58,21 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
   };
 
   const handleFormSubmit = async () => {
-    if (!isFormValid()) {
-        setError("Semua field harus diisi!");
-        return;
+    try {
+      setLoading(true);
+      if (!isFormValid()) {
+          setError("Semua field harus diisi!");
+          return;
+      }
+
+      await pembayaranQuery.mutateAsync(formData);
+
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-
-    await pembayaranQuery.mutateAsync(formData);
-
-    handleClose();
   };
 
   const pembayaranQuery = useMutation({
@@ -147,10 +155,10 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
             )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose} disabled={loading}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleFormSubmit}>
+          <Button variant="primary" onClick={handleFormSubmit} disabled={loading}>
             Kirim
           </Button>
         </Modal.Footer>

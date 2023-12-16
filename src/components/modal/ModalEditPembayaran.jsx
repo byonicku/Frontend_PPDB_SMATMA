@@ -8,6 +8,7 @@ import { FaEdit } from "react-icons/fa";
 const ModalEditPembayaran = ({ data, onClose }) => {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(
     {
       id_pembayaran: data.id_pembayaran,
@@ -50,19 +51,26 @@ const ModalEditPembayaran = ({ data, onClose }) => {
   };
 
   const handleFormSubmit = async () => {
-    if (!isFormValid()) {
-        setError("Semua field harus diisi!");
+    try {
+      setLoading(true);
+      if (!isFormValid()) {
+          setError("Semua field harus diisi!");
+          return;
+      }
+
+      if (formData.tanggal_awal > formData.tanggal_akhir) {
+        setError("Tanggal awal tidak boleh lebih besar dari tanggal akhir!");
         return;
+      }
+
+      await editPembayaranQuery.mutateAsync(formData);
+
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-
-    if (formData.tanggal_awal > formData.tanggal_akhir) {
-      setError("Tanggal awal tidak boleh lebih besar dari tanggal akhir!");
-      return;
-    }
-
-    await editPembayaranQuery.mutateAsync(formData);
-
-    handleClose();
   };
 
   const editPembayaranQuery = useMutation({
@@ -158,10 +166,10 @@ const ModalEditPembayaran = ({ data, onClose }) => {
             )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose} disabled={loading}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleFormSubmit}>
+          <Button variant="primary" onClick={handleFormSubmit} disabled={loading}>
             Kirim
           </Button>
         </Modal.Footer>

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 const ModalAddSemuaPembayaran = () => {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   
   const [formData, setFormData] = useState({
     nama_tagihan: "",
@@ -46,19 +47,25 @@ const ModalAddSemuaPembayaran = () => {
   };
 
   const handleFormSubmit = async () => {
-    if (!isFormValid()) {
-        setError("Semua field harus diisi!");
+    try {
+      if (!isFormValid()) {
+          setError("Semua field harus diisi!");
+          return;
+      }
+
+      if (formData.tanggal_awal > formData.tanggal_akhir) {
+        setError("Tanggal awal tidak boleh lebih besar dari tanggal akhir!");
         return;
+      }
+
+      await addPembayaranSemuaQuery.mutateAsync(formData);
+
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-
-    if (formData.tanggal_awal > formData.tanggal_akhir) {
-      setError("Tanggal awal tidak boleh lebih besar dari tanggal akhir!");
-      return;
-    }
-
-    await addPembayaranSemuaQuery.mutateAsync(formData);
-
-    handleClose();
   };
 
   const addPembayaranSemuaQuery = useMutation({
@@ -150,10 +157,10 @@ const ModalAddSemuaPembayaran = () => {
             )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose} disabled={loading}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleFormSubmit}>
+          <Button variant="primary" onClick={handleFormSubmit} disabled={loading}>
             Kirim
           </Button>
         </Modal.Footer>

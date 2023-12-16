@@ -222,7 +222,7 @@ const DataDiri = () => {
                           RT
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           className="form-control"
                           id="rt"
                           name="rt"
@@ -238,7 +238,7 @@ const DataDiri = () => {
                           RW
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           className="form-control"
                           id="rw"
                           name="rw"
@@ -331,7 +331,8 @@ const DataDiri = () => {
                           Kode Pos
                         </label>
                         <input
-                          type="text"
+                          type="number"
+                          max={5}
                           className="form-control"
                           id="kode_pos"
                           name="kode_pos"
