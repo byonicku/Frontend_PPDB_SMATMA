@@ -38,9 +38,9 @@ const Login = () => {
                 setLoading(false);
             },
             onError: (error) => {
-                setError(error.data.message);
-                toast.error(error.data.message);
                 setLoading(false);
+                toast.error(error.message);
+                setError(error.message);
             },
             onMutate: () => {
                 setLoading(true);

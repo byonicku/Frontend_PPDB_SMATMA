@@ -10,20 +10,30 @@ const Pembayaran = () => {
 
   const refreshPembayaran = async () => {
     try {
-        setLoading(true);
-        const user = JSON.parse(localStorage.getItem("user"));
-        const id = user.data.id_user;
+      setLoading(true);
+      const user = JSON.parse(localStorage.getItem("user"));
+      const id = user.data.id_user;
 
-        const billingData = await APIMethod.getPembayaranByUser(id);
+      const billingData = await APIMethod.getPembayaranByUser(id);
+
+      if (billingData.status === 404) {
+        setBillingData([]);
+      } else {
         setBillingData(billingData.data);
-
-        const paymentHistoryData = await APIMethod.getHistoryByUser(id);
-        setPaymentHistoryData(paymentHistoryData.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);        
       }
+
+      const paymentHistoryData = await APIMethod.getHistoryByUser(id);
+
+      if (paymentHistoryData.status === 404) {
+        setPaymentHistoryData([]);
+      } else {
+        setPaymentHistoryData(paymentHistoryData.data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -34,10 +44,20 @@ const Pembayaran = () => {
         const id = user.data.id_user;
 
         const billingData = await APIMethod.getPembayaranByUser(id);
-        setBillingData(billingData.data);
+
+        if (billingData.status === 404) {
+          setBillingData([]);
+        } else {
+          setBillingData(billingData.data);
+        }
 
         const paymentHistoryData = await APIMethod.getHistoryByUser(id);
-        setPaymentHistoryData(paymentHistoryData.data);
+
+        if (paymentHistoryData.status === 404) {
+          setPaymentHistoryData([]);
+        } else {
+          setPaymentHistoryData(paymentHistoryData.data);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -80,26 +100,26 @@ const Pembayaran = () => {
                       {new Date(item.tanggal_akhir).toLocaleDateString("id-ID")}
                     </td>
                     <td>
-                      {(item.jumlah_pembayaran + item.denda).toLocaleString("id-ID", {
-                        style: "currency",
-                        currency: "IDR",
-                      })}
-                    </td>
-                    <td>
-                      {item.status_pembayaran === null ? (
-                        "Menunggu Pembayaran"
-                      ) : (
-                        `${item.status_pembayaran}`
+                      {(item.jumlah_pembayaran + item.denda).toLocaleString(
+                        "id-ID",
+                        {
+                          style: "currency",
+                          currency: "IDR",
+                        }
                       )}
                     </td>
-                    <td>                      
-                      {
-                      item.tanggal_akhir < new Date().toISOString().split("T")[0] ? (
+                    <td>
+                      {item.status_pembayaran === null
+                        ? "Menunggu Pembayaran"
+                        : `${item.status_pembayaran}`}
+                    </td>
+                    <td>
+                      {item.tanggal_akhir <
+                      new Date().toISOString().split("T")[0] ? (
                         <span className="btn btn-danger disabled">
                           Expired, Contact Admin!
                         </span>
-                      ) :
-                      item.status_pembayaran === "In Process" ? (
+                      ) : item.status_pembayaran === "In Process" ? (
                         <span className="btn btn-success disabled">
                           Tunggu Konfirmasi Admin!
                         </span>
