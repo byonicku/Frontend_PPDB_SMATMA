@@ -8,27 +8,30 @@ const Pembayaran = () => {
   const [paymentHistoryData, setPaymentHistoryData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   const refreshPembayaran = async () => {
     try {
       setLoading(true);
       const user = JSON.parse(localStorage.getItem("user"));
       const id = user.data.id_user;
-
+      
       const billingData = await APIMethod.getPembayaranByUser(id);
+      setBillingData(billingData.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }; 
 
-      if (billingData.status === 404) {
-        setBillingData([]);
-      } else {
-        setBillingData(billingData.data);
-      }
+  const refreshHistory = async () => {
+    try {
+      setLoading(true);
+      const user = JSON.parse(localStorage.getItem("user"));
+      const id = user.data.id_user;
 
       const paymentHistoryData = await APIMethod.getHistoryByUser(id);
-
-      if (paymentHistoryData.status === 404) {
-        setPaymentHistoryData([]);
-      } else {
-        setPaymentHistoryData(paymentHistoryData.data);
-      }
+      setPaymentHistoryData(paymentHistoryData.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -36,37 +39,45 @@ const Pembayaran = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const user = JSON.parse(localStorage.getItem("user"));
-        const id = user.data.id_user;
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          const user = JSON.parse(localStorage.getItem("user"));
+          const id = user.data.id_user;
 
-        const billingData = await APIMethod.getPembayaranByUser(id);
-
-        if (billingData.status === 404) {
-          setBillingData([]);
-        } else {
+          const billingData = await APIMethod.getPembayaranByUser(id);
           setBillingData(billingData.data);
+
+        } catch (error) {
+          console.error("Error fetching data");
+        } finally {
+          setLoading(false);
         }
+      };
 
-        const paymentHistoryData = await APIMethod.getHistoryByUser(id);
+      fetchData();
+    }, []);
 
-        if (paymentHistoryData.status === 404) {
-          setPaymentHistoryData([]);
-        } else {
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          const user = JSON.parse(localStorage.getItem("user"));
+          const id = user.data.id_user;
+
+          const paymentHistoryData = await APIMethod.getHistoryByUser(id);
           setPaymentHistoryData(paymentHistoryData.data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchData();
-  }, []);
+        } catch (error) {
+          console.error("Error fetching data");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchData();
+    }, []);
 
   return !loading ? (
     <div className="container mb-3">
@@ -128,7 +139,7 @@ const Pembayaran = () => {
                           id={item.id_pembayaran}
                           tanggal_awal={item.tanggal_awal}
                           tanggal_akhir={item.tanggal_akhir}
-                          onClose={refreshPembayaran}
+                          onClose={refreshPembayaran.then(refreshHistory)}
                         />
                       )}
                     </td>

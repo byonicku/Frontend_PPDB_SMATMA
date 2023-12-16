@@ -20,22 +20,22 @@ const PembayaranFromMasterData = () => {
   const refreshPembayaran = async () => {
     try {
       setLoading(true);
-
+      
       const billingData = await APIMethod.getPembayaranByUser(id_user);
+      setBillingData(billingData.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }; 
 
-      if (billingData.status === 404) {
-        setBillingData([]);
-      } else {
-        setBillingData(billingData.data);
-      }
+  const refreshHistory = async () => {
+    try {
+      setLoading(true);
 
       const paymentHistoryData = await APIMethod.getHistoryByUser(id_user);
-
-      if (paymentHistoryData.status === 404) {
-        setPaymentHistoryData([]);
-      } else {
-        setPaymentHistoryData(paymentHistoryData.data);
-      }
+      setPaymentHistoryData(paymentHistoryData.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -63,20 +63,26 @@ const PembayaranFromMasterData = () => {
         setLoading(true);
 
         const billingData = await APIMethod.getPembayaranByUser(id_user);
+        setBillingData(billingData.data);
 
-        if (billingData.status === 404) {
-          setBillingData([]);
-        } else {
-          setBillingData(billingData.data);
-        }
+      } catch (error) {
+        console.error("Error fetching data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id_user, navigate]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
 
         const paymentHistoryData = await APIMethod.getHistoryByUser(id_user);
+        setPaymentHistoryData(paymentHistoryData.data);
 
-        if (paymentHistoryData.status === 404) {
-          setPaymentHistoryData([]);
-        } else {
-          setPaymentHistoryData(paymentHistoryData.data);
-        }
       } catch (error) {
         console.error("Error fetching data");
       } finally {
@@ -108,10 +114,10 @@ const PembayaranFromMasterData = () => {
             <h4>Tagihan Pembayaran</h4>
           </div>
           <div className="card-body">
-            <div className="col-md-12 col-lg-6 mb-1 text-md-start">
+          <div className="col-md-12 col-lg-6 mb-1 text-md-start">
               <ModalAddPembayaran
                 id_user={id_user}
-                onClose={refreshPembayaran}
+                onClose={refreshPembayaran.then(refreshHistory)}
               />
             </div>
             <div className="table-responsive">
@@ -132,41 +138,24 @@ const PembayaranFromMasterData = () => {
                     <tr key={item.id_pembayaran}>
                       <th scope="row">{index + 1}</th>
                       <td>{item.nama_tagihan}</td>
-                      <td>
-                        {new Date(item.tanggal_awal).toLocaleDateString(
-                          "id-ID"
-                        )}
-                      </td>
-                      <td>
-                        {new Date(item.tanggal_akhir).toLocaleDateString(
-                          "id-ID"
-                        )}
-                      </td>
-                      <td>
-                        {item.jumlah_pembayaran.toLocaleString("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        })}
-                      </td>
-                      <td>
-                        {item.status_pembayaran === null
-                          ? "Belum Dibayar"
-                          : item.status_pembayaran}
-                      </td>
+                      <td>{new Date(item.tanggal_awal).toLocaleDateString("id-ID")}</td>
+                      <td>{new Date(item.tanggal_akhir).toLocaleDateString("id-ID")}</td>
+                      <td>{item.jumlah_pembayaran.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}</td>
+                      <td>{item.status_pembayaran === null ? "Belum Dibayar" : item.status_pembayaran}</td>
                       <td>
                         <ModalLihatPembayaran
                           data={item}
-                          onClose={refreshPembayaran}
+                          onClose={refreshPembayaran.then(refreshHistory)}
                         />
                         <ModalEditPembayaran
-                          data={item}
-                          onClose={refreshPembayaran}
-                        />
+                            data={item}
+                            onClose={refreshPembayaran.then(refreshHistory)}
+                          />
                         <button
                           onClick={() => handleDelete(item.id_pembayaran)}
                           className="btn btn-danger ms-1"
                         >
-                          <FaTrash className="mb-1 me-1" />
+                          <FaTrash className="mb-1 me-1"/>
                           Hapus
                         </button>
                       </td>
@@ -200,11 +189,7 @@ const PembayaranFromMasterData = () => {
                     <tr key={item.id_pembayaran}>
                       <th scope="row">{index + 1}</th>
                       <td>{item.nama_tagihan}</td>
-                      <td>
-                        {new Date(item.tanggal_bayar).toLocaleDateString(
-                          "id-ID"
-                        )}
-                      </td>
+                      <td>{new Date(item.tanggal_bayar).toLocaleDateString("id-ID")}</td>
                       <td>{item.metode_pembayaran}</td>
                       <td>
                         {item.jumlah_pembayaran.toLocaleString("id-ID", {
