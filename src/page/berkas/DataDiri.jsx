@@ -332,7 +332,7 @@ const DataDiri = () => {
                         </label>
                         <input
                           type="number"
-                          max={5}
+                          maxLength={5}
                           className="form-control"
                           id="kode_pos"
                           name="kode_pos"

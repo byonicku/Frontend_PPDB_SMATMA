@@ -239,7 +239,7 @@ const ProfileFromMasterData = () => {
             {editUser ? (
               <input
                 type="text"
-                className="form-control w-25"
+                className="form-control w-auto"
                 id="name"
                 name="name"
                 placeholder="Nama Lengkap"
@@ -260,7 +260,7 @@ const ProfileFromMasterData = () => {
               <h1 className="text-left" style={{ fontSize: "24px" }}>
                 {editUser ? (
                   <select
-                    className="form-select w-25"
+                    className="form-select w-auto"
                     id="jurusan"
                     name="jurusan"
                     onChange={handleInputUserChange}
@@ -289,7 +289,7 @@ const ProfileFromMasterData = () => {
                   <button
                     className="btn btn-success"
                     onClick={handleAccept}
-                    disabled={user.data_user.status === "Accepted"}
+                    disabled={user.data_user.status === "Accepted" || loading}
                   >
                     <FaCheck className="me-1 mb-1" />
                     Terima

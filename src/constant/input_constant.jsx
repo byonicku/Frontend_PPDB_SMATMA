@@ -134,4 +134,4 @@ export const cities = [
     'Sibolga',
     'Tanjungbalai',
     'Tebing Tinggi',
-];
+].sort();
