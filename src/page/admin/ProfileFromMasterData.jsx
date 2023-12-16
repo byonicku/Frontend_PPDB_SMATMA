@@ -745,26 +745,6 @@ const ProfileFromMasterData = () => {
                       </div>
                     </div>
                     <div className="col-md-12 col-lg-6">
-                    <div className="mb-3">
-                      <strong>Jenis Kelamin:</strong>
-                      {editOrtu ? (
-                        <select
-                          className="form-select"
-                          id="jeniskelamin"
-                          name="jeniskelamin"
-                          defaultValue={ortu.jenis_kelamin}
-                          onChange={handleInputOrtuChange}
-                          required
-                        >
-                          <option value="Laki-laki">Laki-laki</option>
-                          <option value="Perempuan">Perempuan</option>
-                        </select>
-                      ) : (
-                        <p>{ortu.jenis_kelamin}</p>
-                      )}
-                    </div>
-                  </div>
-                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <strong>Nomor Telepon:</strong>
                         {editOrtu ? (

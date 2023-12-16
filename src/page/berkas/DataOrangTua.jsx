@@ -148,24 +148,6 @@ function DataOrangTua() {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="jenis_kelamin" className="form-label">
-                      Jenis Kelamin
-                    </label>
-                    <select
-                      className="form-select"
-                      id="jenis_kelamin"
-                      name="jenis_kelamin"
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option hidden value="">
-                        Jenis Kelamin
-                      </option>
-                      <option value="Laki-laki">Laki-laki</option>
-                      <option value="Perempuan">Perempuan</option>
-                    </select>
-                  </div>
-                  <div className="mb-3">
                     <label htmlFor="tempatlahir" className="form-label">
                       Tempat Lahir
                     </label>
