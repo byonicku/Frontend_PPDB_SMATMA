@@ -203,6 +203,9 @@ const ProfileFromMasterData = () => {
       toast.success("User berhasil diterima!");
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setEditOrtu(false);
+      setLoading(false);
     }
   };
 
@@ -572,6 +575,7 @@ const ProfileFromMasterData = () => {
                             className="form-control"
                             id="kode_pos"
                             name="kode_pos"
+                            maxLength={5}
                             placeholder="Kode Pos"
                             defaultValue={user.data_user.kode_pos}
                             onChange={handleInputUserChange}
