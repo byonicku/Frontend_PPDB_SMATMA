@@ -68,7 +68,6 @@ const ModalAddPembayaran = ({ id_user, onClose }) => {
     mutationFn: (data) => APIPembayaran.tambahPembayaran(data),
     onSuccess: (data) => {
       onClose();
-      console.log(data);
       toast.success("Pembayaran berhasil ditambahkan!");
       setError(null);
     },

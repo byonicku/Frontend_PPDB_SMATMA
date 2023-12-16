@@ -38,7 +38,6 @@ function DataOrangTua() {
     {
       mutationFn: (data) => APIMethod.submitBerkas(data),
       onSuccess: (data) => {
-        console.log(data);
         toast.success("Data diri query berhasil!");
       },
       onError: (error) => {
@@ -57,7 +56,6 @@ function DataOrangTua() {
     {
       mutationFn: (data) => APIMethod.submitBerkasOrtu(data, state.content.pick),
       onSuccess: (data) => {
-        console.log(data);
         toast.success("Data ortu query berhasil!");
         setTimeout(() => {
           navigate("/berkas/success");
@@ -87,7 +85,6 @@ function DataOrangTua() {
     e.preventDefault();
 
     const formDataDiri = state.content.formData;
-    console.log(formDataDiri);
 
     const formDataOrtu = new FormData(e.target);
     const dataOrtu = {};
@@ -98,9 +95,6 @@ function DataOrangTua() {
     dataOrtu["id_data_user"] = JSON.parse(getUser()).data_user.id_data_user;
 
     try {
-      console.log("Form submitted dataDiri:", formDataDiri);
-      console.log("Form submitted dataOrtu:", dataOrtu);
-
       await dataOrtuQuery.mutateAsync(dataOrtu);
       await dataDiriQuery.mutateAsync(formDataDiri);
 

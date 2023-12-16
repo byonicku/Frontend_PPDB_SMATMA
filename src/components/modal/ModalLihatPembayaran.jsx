@@ -32,7 +32,6 @@ const ModalLihatPembayaran = ({ data, onClose }) => {
     mutationFn: (data) => APIPembayaran.acceptPembayaran(data.id_pembayaran),
     onSuccess: (data) => {
       onClose();
-      console.log(data);
       toast.success("Pembayaran berhasil diterima!");
       setError(null);
     },
@@ -46,7 +45,6 @@ const ModalLihatPembayaran = ({ data, onClose }) => {
     mutationFn: (data) => APIPembayaran.rejectPembayaran(data.id_pembayaran),
     onSuccess: (data) => {
       onClose();
-      console.log(data);
       toast.success("Pembayaran berhasil ditolak!");
       setError(null);
     },

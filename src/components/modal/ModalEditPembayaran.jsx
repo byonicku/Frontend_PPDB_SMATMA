@@ -69,7 +69,6 @@ const ModalEditPembayaran = ({ data, onClose }) => {
     mutationFn: (data) => APIPembayaran.editPembayaran(data, data.id_pembayaran),
     onSuccess: (data) => {
       onClose();
-      console.log(data);
       toast.success("Pembayaran berhasil diubah!");
       setError(null);
     },

@@ -64,7 +64,6 @@ const ModalAddSemuaPembayaran = () => {
   const addPembayaranSemuaQuery = useMutation({
     mutationFn: (data) => APIPembayaran.tambahSemuaPembayaran(data),
     onSuccess: (data) => {
-      console.log(data);
       toast.success("Pembayaran berhasil ditambahkan ke semua user!");
       setError(null);
     },

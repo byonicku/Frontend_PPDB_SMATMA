@@ -62,7 +62,6 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
         return;
     }
 
-    console.log("Form submitted:", formData);
     await pembayaranQuery.mutateAsync(formData);
 
     handleClose();
@@ -72,7 +71,6 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
     mutationFn: (data) => APIPembayaran.bayarPembayaran(data, id),
     onSuccess: (data) => {
       onClose();
-      console.log(data);
       toast.success("Pembayaran berhasil dibayar! Silahkan menunggu admin untuk verifikasi");
       setTimeout(() => {
         navigate("/pembayaran");
