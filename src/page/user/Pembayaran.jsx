@@ -9,17 +9,21 @@ const Pembayaran = () => {
   const [loading, setLoading] = useState(true);
 
   const refreshPembayaran = async () => {
-    setLoading(true);
-    const user = JSON.parse(localStorage.getItem("user"));
-    const id = user.data.id_user;
+    try {
+        setLoading(true);
+        const user = JSON.parse(localStorage.getItem("user"));
+        const id = user.data.id_user;
 
-    const billingData = await APIMethod.getPembayaranByUser(id);
-    setBillingData(billingData.data);
+        const billingData = await APIMethod.getPembayaranByUser(id);
+        setBillingData(billingData.data);
 
-    const paymentHistoryData = await APIMethod.getHistoryByUser(id);
-    setPaymentHistoryData(paymentHistoryData.data);
-    setLoading(false);
-    console.log("Refreshing data...");
+        const paymentHistoryData = await APIMethod.getHistoryByUser(id);
+        setPaymentHistoryData(paymentHistoryData.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);        
+      }
   };
 
   useEffect(() => {

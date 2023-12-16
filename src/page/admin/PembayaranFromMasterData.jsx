@@ -18,25 +18,32 @@ const PembayaranFromMasterData = () => {
   const [loading, setLoading] = useState(true);
 
   const refreshPembayaran = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const billingData = await APIMethod.getPembayaranByUser(id_user);
-    setBillingData(billingData.data);
+      const billingData = await APIMethod.getPembayaranByUser(id_user);
+      setBillingData(billingData.data);
 
-    const paymentHistoryData = await APIMethod.getHistoryByUser(id_user);
-    setPaymentHistoryData(paymentHistoryData.data);
-    setLoading(false);
-  };
+      const paymentHistoryData = await APIMethod.getHistoryByUser(id_user);
+      setPaymentHistoryData(paymentHistoryData.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }; 
 
   const handleDelete = async (id_pembayaran) => {
     try {
-      console.log(id_pembayaran);
+      setLoading(true);
       await APIPembayaran.deletePembayaran(id_pembayaran);
       toast.success("Berhasil menghapus data pembayaran");
       refreshPembayaran();
     } catch (error) {
       console.error("Error deleting data:", error);
       toast.error("Gagal menghapus data pembayaran");
+    } finally {
+      setLoading(false);
     }
   };
 
