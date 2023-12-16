@@ -385,7 +385,6 @@ function DataOrangTua() {
                       </option>
                       <option value="PNS">Pegawai Negeri Sipil</option>
                       <option value="Swasta">Karyawan Swasta</option>
-                      <option value="Wiraswasta">Wiraswasta</option>
                       <option value="Guru / Dosen">Guru / Dosen</option>
                       <option value="Dokter">Dokter</option>
                       <option value="Perawat">Perawat</option>
