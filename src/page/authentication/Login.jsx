@@ -39,7 +39,7 @@ const Login = () => {
             },
             onError: (error) => {
                 setLoading(false);
-                toast.error(error.message);
+                toast.error("Login gagal!");
                 setError(error.message);
             },
             onMutate: () => {
@@ -51,14 +51,19 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const formData = new FormData(e.target);    
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
+        try {
+            const formData = new FormData(e.target);    
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
 
-        console.log(data);
-        await loginQuery.mutateAsync(data);
+            await loginQuery.mutateAsync(data);
+        } catch (error) {
+            console.log("Error login");
+        } finally {
+            setLoading(false);
+        }
     }
 
     const handleToggleShowPass = () => {
