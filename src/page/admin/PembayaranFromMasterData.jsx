@@ -51,8 +51,7 @@ const PembayaranFromMasterData = () => {
         const paymentHistoryData = await APIMethod.getHistoryByUser(id_user);
         setPaymentHistoryData(paymentHistoryData.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
-        navigate("/masterdata");
+        console.error("Error fetching data");
       } finally {
         setLoading(false);
       }
