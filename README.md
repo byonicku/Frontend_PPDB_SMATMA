@@ -17,7 +17,7 @@
 
 ## Bonus yang diambil :
 - Hosting :
-  - Backend : 
+  - Backend : https://tugasbesarpw2.azurewebsites.net/
   - Frontend : https://tugas-besar-pw-ppdb-react.vercel.app/
 - Routes API:
   - User:
