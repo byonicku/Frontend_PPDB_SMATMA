@@ -129,7 +129,7 @@ const ProfileFromMasterData = () => {
       refreshProfile();
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.data.message);
       setLoading(false);
     },
     onMutate: () => {
@@ -144,7 +144,7 @@ const ProfileFromMasterData = () => {
       refreshProfile();
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.data.message);
       setLoading(false);
     },
     onMutate: () => {
@@ -159,7 +159,7 @@ const ProfileFromMasterData = () => {
       refreshProfile();
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.data.message);
       setLoading(false);
     },
     onMutate: () => {

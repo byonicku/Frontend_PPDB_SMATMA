@@ -141,6 +141,7 @@ const DataDiri = () => {
                       name="tanggallahir"
                       placeholder="Tanggal Lahir"
                       onChange={handleInputChange}
+                      onKeyDown={(e) => e.preventDefault()}
                       max={new Date().toISOString().split("T")[0]}
                       required
                     />

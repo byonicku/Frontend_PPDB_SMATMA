@@ -42,8 +42,9 @@ function DataOrangTua() {
         toast.success("Data diri query berhasil!");
       },
       onError: (error) => {
-        setError(error.message);
-        toast.error(error.message);
+        console.log(error);
+        setError(error.data.message);
+        toast.error(error.data.message);
         setLoading(false);
       },
       onMutate: () => {
@@ -64,8 +65,9 @@ function DataOrangTua() {
         setLoading(false);
       },
       onError: (error) => {
-        setError(error.message);
-        toast.error(error.message);
+        console.log(error);
+        setError(error.data.message);
+        toast.error(error.data.message);
         setLoading(false);
       },
       onMutate: () => {

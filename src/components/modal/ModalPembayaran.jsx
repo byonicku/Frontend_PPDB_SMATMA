@@ -80,8 +80,8 @@ const ModalPembayaran = ({ id, tanggal_awal, tanggal_akhir, onClose }) => {
       setError(null);
     },
     onError: (error) => {
-      setError(error.message);
-      toast.error(error.message);
+      setError(error.data.message);
+      toast.error(error.data.message);
     },
   });
 

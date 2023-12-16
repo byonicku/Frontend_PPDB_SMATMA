@@ -25,7 +25,7 @@ const Register = () => {
                 }, 500);
             },
             onError: (error) => {
-                setError(error.message);
+                setError(error.data.message);
                 toast.error("Gagal Register!");
                 setLoading(false);
             },

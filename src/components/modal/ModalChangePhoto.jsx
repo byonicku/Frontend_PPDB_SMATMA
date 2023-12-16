@@ -38,8 +38,8 @@ const ModalChangePhoto = ({ id, onClose }) => {
       setError(null);
     },
     onError: (error) => {
-      setError(error.message);
-      toast.error(error.message);
+      setError(error.data.message);
+      toast.error(error.data.message);
       setLoading(false);
     },
     onMutate: () => {

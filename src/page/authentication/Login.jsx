@@ -38,8 +38,8 @@ const Login = () => {
                 setLoading(false);
             },
             onError: (error) => {
-                setError(error.message);
-                toast.error(error.message);
+                setError(error.data.message);
+                toast.error(error.data.message);
                 setLoading(false);
             },
             onMutate: () => {
