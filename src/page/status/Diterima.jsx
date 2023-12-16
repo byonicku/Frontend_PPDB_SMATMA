@@ -1,8 +1,7 @@
 import StatusComponent from "../../components/success_component/status_component";
-import { useEffect } from "react";
-import { useState } from "react";
-import { APIMethod } from "../../utils/ApiMethod";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import APIMethod from "../../api/APIMethod";
+import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import getUser from "../../api/UserHandler";
 import { Spinner } from "react-bootstrap";
