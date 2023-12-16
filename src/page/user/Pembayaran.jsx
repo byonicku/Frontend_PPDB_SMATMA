@@ -21,6 +21,7 @@ const Pembayaran = () => {
       console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
+      await refreshHistory();
     }
   }; 
 
@@ -139,7 +140,7 @@ const Pembayaran = () => {
                           id={item.id_pembayaran}
                           tanggal_awal={item.tanggal_awal}
                           tanggal_akhir={item.tanggal_akhir}
-                          onClose={refreshPembayaran.then(refreshHistory)}
+                          onClose={refreshPembayaran}
                         />
                       )}
                     </td>

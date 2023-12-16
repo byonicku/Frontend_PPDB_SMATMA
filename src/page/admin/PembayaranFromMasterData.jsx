@@ -27,6 +27,7 @@ const PembayaranFromMasterData = () => {
       console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
+      await refreshHistory();
     }
   }; 
 
@@ -117,7 +118,7 @@ const PembayaranFromMasterData = () => {
           <div className="col-md-12 col-lg-6 mb-1 text-md-start">
               <ModalAddPembayaran
                 id_user={id_user}
-                onClose={refreshPembayaran.then(refreshHistory)}
+                onClose={refreshPembayaran}
               />
             </div>
             <div className="table-responsive">
@@ -145,11 +146,11 @@ const PembayaranFromMasterData = () => {
                       <td>
                         <ModalLihatPembayaran
                           data={item}
-                          onClose={refreshPembayaran.then(refreshHistory)}
+                          onClose={refreshPembayaran}
                         />
                         <ModalEditPembayaran
                             data={item}
-                            onClose={refreshPembayaran.then(refreshHistory)}
+                            onClose={refreshPembayaran}
                           />
                         <button
                           onClick={() => handleDelete(item.id_pembayaran)}
