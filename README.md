@@ -4,8 +4,8 @@
 
 ## Anggota Kelompok :
 - Nico Herlim (210711227) - Full Stack dev
-- Michael Wahyu Kristian (210711254) - AFK
-- Kristina Adine Mustika Arnalda (210711102) - AFK
+- Michael Wahyu Kristian (210711254) - support ?
+- Kristina Adine Mustika Arnalda (210711102) - support ?
 
 ## Username & Password Login :
 - Login User :
