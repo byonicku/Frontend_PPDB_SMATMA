@@ -260,6 +260,12 @@ const Profile = () => {
                   </div>
                   <div className="col-md-12 col-lg-6">
                     <div className="mb-3">
+                      <strong>Jenis Kelamin:</strong>
+                      <p>{currentUser.data_user.jenis_kelamin}</p>
+                    </div>
+                  </div>
+                  <div className="col-md-12 col-lg-6">
+                    <div className="mb-3">
                       <strong>Nomor Telepon:</strong>
                       <p>{ortu.no_telp}</p>
                     </div>
