@@ -112,11 +112,11 @@ function DataOrangTua() {
   return (
     <div className="container">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-12 col-lg-6">
             <h4>Step 2 of 2</h4>
             <h5>Data Orang Tua</h5>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-12 col-lg-6">
             <div
               className="alert alert-warning d-flex align-items-center"
               role="alert"
@@ -132,7 +132,7 @@ function DataOrangTua() {
             <form onSubmit={handleSubmit}>
               <div className="row">
                 <h5>{state.content.pick}</h5>
-                <div className="col-md-6 border-end">
+                <div className="col-md-12 col-lg-6 border-end">
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label">
                       Nama Lengkap
@@ -219,7 +219,7 @@ function DataOrangTua() {
                     ></textarea>
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="rt" className="form-label">
                           RT
@@ -235,7 +235,7 @@ function DataOrangTua() {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="rw" className="form-label">
                           RW
@@ -253,7 +253,7 @@ function DataOrangTua() {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12 col-lg-6">
                   <div className="mb-3">
                     <label htmlFor="provinsi" className="form-label">
                       Provinsi
@@ -276,7 +276,7 @@ function DataOrangTua() {
                     </select>
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="kota" className="form-label">
                           Kabupaten/Kota
@@ -292,7 +292,7 @@ function DataOrangTua() {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="kecamatan" className="form-label">
                           Kecamatan
@@ -311,7 +311,7 @@ function DataOrangTua() {
                   </div>
 
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="kelurahan" className="form-label">
                           Kelurahan/Desa
@@ -327,7 +327,7 @@ function DataOrangTua() {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="kode_pos" className="form-label">
                           Kode Pos

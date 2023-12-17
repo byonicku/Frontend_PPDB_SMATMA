@@ -90,11 +90,11 @@ const DataDiri = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-12 col-lg-6">
           <h4>Step 1 of 2</h4>
           <h5>Data Diri</h5>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-12 col-lg-6">
           <div
             className="alert alert-warning d-flex align-items-center"
             role="alert"
@@ -109,7 +109,7 @@ const DataDiri = () => {
         <div className="card w-100">
           <div className="card-body">
               <div className="row">
-                <div className="col-md-6 border-end">
+                <div className="col-md-12 col-lg-6 border-end">
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label">
                       Nama Lengkap
@@ -228,7 +228,7 @@ const DataDiri = () => {
                     ></textarea>
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="rt" className="form-label">
                           RT
@@ -244,7 +244,7 @@ const DataDiri = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="rw" className="form-label">
                           RW
@@ -263,7 +263,7 @@ const DataDiri = () => {
                   </div>
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-md-12 col-lg-6">
                   <div className="mb-3">
                     <label htmlFor="provinsi" className="form-label">
                       Provinsi
@@ -286,7 +286,7 @@ const DataDiri = () => {
                     </select>
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="kota" className="form-label">
                           Kabupaten/Kota
@@ -302,7 +302,7 @@ const DataDiri = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="kecamatan" className="form-label">
                           Kecamatan
@@ -321,7 +321,7 @@ const DataDiri = () => {
                   </div>
 
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="kelurahan" className="form-label">
                           Kelurahan/Desa
@@ -337,7 +337,7 @@ const DataDiri = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6">
                       <div className="mb-3">
                         <label htmlFor="kode_pos" className="form-label">
                           Kode Pos
