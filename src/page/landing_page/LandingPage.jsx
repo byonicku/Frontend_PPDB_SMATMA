@@ -34,7 +34,7 @@ function LandingPage() {
   const location = useLocation();
 
   // Define routes that should not have Header and Footer
-  const noHeaderFooterRoutes = ["/login", "/register", "/forgotpassword"];
+  const noHeaderFooterRoutes = ["/login", "/register"];
 
   // Check if the current route is in the list of routes without Header and Footer
   const shouldRenderHeaderFooter = !noHeaderFooterRoutes.includes(
