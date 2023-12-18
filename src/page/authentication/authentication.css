@@ -41,4 +41,8 @@ Link {
     .custom-btn {
         font-size: 20px;
     }
+
+    .gradient {
+        display: none;
+    }
 }
