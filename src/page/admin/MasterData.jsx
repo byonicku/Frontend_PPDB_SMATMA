@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import APIMethod from "../../api/APIMethod";
 import { Spinner } from "react-bootstrap";
@@ -33,6 +33,7 @@ const MasterData = () => {
     setSearchTerm("");
     setSelectedJurusan("");
     setFilteredUsers(users);
+    setCurrentPage(1);
   };
 
   const filterByJurusan = (jurusan) => {
@@ -49,18 +50,21 @@ const MasterData = () => {
     setLoading(true);
   };
 
-  const fetchData = async (currentPage) => {
+  const fetchData = useCallback( async (currentPage) => {
     try {
       const user = await APIMethod.getAllUser();
       const totalUsers = user.data.length;
   
       const totalPages = Math.ceil(totalUsers / usersPerPage);
   
+      // Use filtered users if there is a search term
+      const dataToPaginate = searchTerm ? filteredUsers : user.data;
+  
       const startIndex = (currentPage - 1) * usersPerPage;
       const endIndex = Math.min(startIndex + usersPerPage, totalUsers);
-
-      setUsers(user.data);
-      setFilteredUsers(user.data.slice(startIndex, endIndex));
+  
+      setUsers(dataToPaginate);
+      setFilteredUsers(dataToPaginate.slice(startIndex, endIndex));
   
       setTotalPages(totalPages);
     } catch (e) {
@@ -68,12 +72,12 @@ const MasterData = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchTerm, filteredUsers]);
   
-
   useEffect(() => {
     fetchData(currentPage);
-  }, [currentPage]);
+  }, [currentPage, fetchData]);
+
   return !loading ? (
     <div className="container pb-5">
       <div className="card">
