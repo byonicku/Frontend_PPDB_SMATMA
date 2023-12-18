@@ -11,10 +11,13 @@ const MasterData = () => {
   const [filteredUsers, setFilteredUsers] = useState(users);
   const [loading, setLoading] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10; // Define the number of users per page
+
   const handleSearchChange = (event) => {
     const term = event.target.value;
     setSearchTerm(term);
-    filterUsers(term);  
+    filterUsers(term);
     setSelectedJurusan("");
   };
 
@@ -32,28 +35,35 @@ const MasterData = () => {
   };
 
   const filterByJurusan = (jurusan) => {
-    const filteredByJurusan = users.filter((user) => user.data_users.jurusan === jurusan);
+    const filteredByJurusan = users.filter(
+      (user) => user.data_users.jurusan === jurusan
+    );
     setFilteredUsers(filteredByJurusan);
     setSelectedJurusan(jurusan);
   };
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    fetchData(newPage);
+  };
+
+  const fetchData = async (currentPage) => {
+    try {
+      const user = await APIMethod.getAllUser();
+      const startIndex = (currentPage - 1) * usersPerPage;
+      const endIndex = startIndex + usersPerPage;
+      setUsers(user.data.slice(startIndex, endIndex));
+      setFilteredUsers(user.data.slice(startIndex, endIndex));
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const user = await APIMethod.getAllUser();
-
-        setUsers(user.data);
-        setFilteredUsers(user.data);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+    fetchData(currentPage);
+  }, [currentPage]);
   return !loading ? (
     <div className="container pb-5">
       <div className="card">
@@ -80,7 +90,7 @@ const MasterData = () => {
         <div className="card-body">
           <div className="row">
             <div className="col-md-12 col-lg-6 mb-1 text-md-start">
-              <ModalAddSemuaPembayaran/>
+              <ModalAddSemuaPembayaran />
             </div>
             <div className="col-md-12 col-lg-6 text-md-end">
               <button
@@ -138,7 +148,13 @@ const MasterData = () => {
                         ? user.name
                         : user.data_users.name}
                     </td>
-                    <td>{new Date(user.created_at).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
+                    <td>
+                      {new Date(user.created_at).toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </td>
                     <td>{user.data_users.status}</td>
                     <td>
                       {user.data_users.jurusan === null
@@ -157,6 +173,34 @@ const MasterData = () => {
                 ))}
               </tbody>
             </table>
+            <div className="d-flex justify-content-center">
+              {/* Render pagination controls here */}
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              {Array.from({
+                length: Math.ceil(users.length / usersPerPage),
+              }).map((_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => handlePageChange(i + 1)}
+                  className={currentPage === i + 1 ? "active" : ""}
+                >
+                  {i + 1}
+                </button>
+              ))}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={
+                  currentPage === Math.ceil(users.length / usersPerPage)
+                }
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </div>
