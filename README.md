@@ -1,6 +1,6 @@
 # UAS Pemrograman Web Gasal 2023 / 2024
 
-# Kelas A Kelompok 2
+# Kelas A Kelompok 10
 
 ## Anggota Kelompok :
 - Nico Herlim (210711227) - Full Stack dev
