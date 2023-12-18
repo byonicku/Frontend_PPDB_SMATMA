@@ -37,9 +37,6 @@ function DataOrangTua() {
   const dataDiriQuery = useMutation(
     {
       mutationFn: (data) => APIMethod.submitBerkas(data),
-      onSuccess: (data) => {
-        toast.success("Data diri query berhasil!");
-      },
       onError: (error) => {
         console.log(error);
         setError(error.data.message);
@@ -55,12 +52,12 @@ function DataOrangTua() {
   const dataOrtuQuery = useMutation(
     {
       mutationFn: (data) => APIMethod.submitBerkasOrtu(data, state?.content.pick),
-      onSuccess: (data) => {
-        toast.success("Data ortu query berhasil!");
+      onSuccess: () => {
+        toast.success("Berhasil input data berkas!");
         setTimeout(() => {
           navigate("/berkas/success");
+          setLoading(false);
         }, 500);
-        setLoading(false);
       },
       onError: (error) => {
         console.log(error);
@@ -74,19 +71,17 @@ function DataOrangTua() {
     }
   );
   
-  // Handle form field changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formDataDiri = state?.content.formData;
-
     const formDataOrtu = new FormData(e.target);
+    
     const dataOrtu = {};
     formDataOrtu.forEach((value, key) => {
       dataOrtu[key] = value;

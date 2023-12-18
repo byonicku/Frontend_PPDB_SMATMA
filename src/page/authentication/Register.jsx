@@ -41,24 +41,20 @@ const Register = () => {
         try {
             const formData = new FormData(e.target);    
             const data = {};
+
             formData.forEach((value, key) => {
                 data[key] = value;
             });
 
             if (data.username === 'admin') {
                 toast.warning("Username 'admin' tidak boleh dipakai untuk register!");
-                setTimeout(() => {
-                    navigate("/register");
-                }, 500);
-                setLoading(false);
                 return;
             }
 
             await registerMutation.mutateAsync(data);
         } catch (error) {
-            console.log("Error register!");
-        } finally {
             setLoading(false);
+            console.log("Error register!");
         }
     }
 

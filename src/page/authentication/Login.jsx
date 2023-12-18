@@ -35,7 +35,6 @@ const Login = () => {
                 setTimeout(() => {
                     navigate("/");
                 }, 500);
-                setLoading(false);
             },
             onError: (error) => {
                 setLoading(false);
@@ -60,9 +59,8 @@ const Login = () => {
 
             await loginQuery.mutateAsync(data);
         } catch (error) {
-            console.log("Error login");
-        } finally {
             setLoading(false);
+            console.log("Error login");
         }
     }
 
