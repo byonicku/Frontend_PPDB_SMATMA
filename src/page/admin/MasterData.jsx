@@ -46,6 +46,7 @@ const MasterData = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
     fetchData(newPage);
+    setLoading(true);
   };
 
   const fetchData = async (currentPage) => {
@@ -58,7 +59,7 @@ const MasterData = () => {
       const startIndex = (currentPage - 1) * usersPerPage;
       const endIndex = Math.min(startIndex + usersPerPage, totalUsers);
 
-      setUsers(user.data.slice(startIndex, endIndex));
+      setUsers(user.data);
       setFilteredUsers(user.data.slice(startIndex, endIndex));
   
       setTotalPages(totalPages);
