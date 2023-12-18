@@ -13,7 +13,7 @@ const MasterData = () => {
 
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10; // Define the number of users per page
+  const usersPerPage = 10;
 
   const handleSearchChange = (event) => {
     const term = event.target.value;
@@ -209,7 +209,7 @@ const MasterData = () => {
                 ))}
                 <li
                   className={`page-item ${
-                    currentPage === Math.ceil(users.length / usersPerPage) &&
+                    currentPage === totalPages &&
                     "disabled"
                   }`}
                 >
