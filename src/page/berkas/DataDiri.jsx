@@ -70,7 +70,7 @@ const DataDiri = () => {
     
     if (pick === "") {
         e.preventDefault();
-        toast.error("Mohon pilih data yang ingin di-input!");
+        toast.error("Mohon pilih data orang tua yang ingin di-input!");
         return;
     }
 
@@ -83,6 +83,12 @@ const DataDiri = () => {
     if (formData.ijazah !== null && formData.ijazah.size > 512000) {
         e.preventDefault();
         toast.error("Ukuran ijazah tidak boleh lebih dari 500KB!");
+        return;
+    }
+
+    if (formData.kode_pos.length > 5) {
+        e.preventDefault();
+        toast.error("Kode Pos hanya boleh 5 digit kebawah!");
         return;
     }
   };
