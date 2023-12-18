@@ -17,6 +17,12 @@ const MasterData = () => {
 
   const handleSearchChange = (event) => {
     const term = event.target.value;
+    
+    if (!term) {
+      clearFilter();
+      return;
+    }
+
     setSearchTerm(term);
     filterUsers(term);
     setSelectedJurusan("");
