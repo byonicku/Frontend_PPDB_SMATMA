@@ -45,7 +45,7 @@ function LandingPage() {
     <>
       <QueryClientProvider client={queryClient}>
         {shouldRenderHeaderFooter && <Header />}
-        <Toaster position="top-center" richColors />
+        <Toaster position="top-center" richColors closeButton />
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />
