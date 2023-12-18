@@ -11,6 +11,7 @@ const MasterData = () => {
   const [filteredUsers, setFilteredUsers] = useState(users);
   const [loading, setLoading] = useState(true);
 
+  const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10; // Define the number of users per page
 
@@ -50,16 +51,24 @@ const MasterData = () => {
   const fetchData = async (currentPage) => {
     try {
       const user = await APIMethod.getAllUser();
+      const totalUsers = user.data.length;
+  
+      const totalPages = Math.ceil(totalUsers / usersPerPage);
+  
       const startIndex = (currentPage - 1) * usersPerPage;
-      const endIndex = startIndex + usersPerPage;
+      const endIndex = Math.min(startIndex + usersPerPage, totalUsers);
+
       setUsers(user.data.slice(startIndex, endIndex));
       setFilteredUsers(user.data.slice(startIndex, endIndex));
+  
+      setTotalPages(totalPages);
     } catch (e) {
       console.log(e);
     } finally {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchData(currentPage);
@@ -184,7 +193,7 @@ const MasterData = () => {
                   </button>
                 </li>
                 {Array.from({
-                  length: Math.ceil(users.length / usersPerPage),
+                  length: totalPages,
                 }).map((_, i) => (
                   <li
                     key={i + 1}
