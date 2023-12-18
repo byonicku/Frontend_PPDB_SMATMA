@@ -174,32 +174,44 @@ const MasterData = () => {
               </tbody>
             </table>
             <div className="d-flex justify-content-center">
-              {/* Render pagination controls here */}
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </button>
-              {Array.from({
-                length: Math.ceil(users.length / usersPerPage),
-              }).map((_, i) => (
-                <button
-                  key={i + 1}
-                  onClick={() => handlePageChange(i + 1)}
-                  className={currentPage === i + 1 ? "active" : ""}
+              <ul className="pagination">
+                <li className={`page-item ${currentPage === 1 && "disabled"}`}>
+                  <button
+                    className="page-link"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                  >
+                    Previous
+                  </button>
+                </li>
+                {Array.from({
+                  length: Math.ceil(users.length / usersPerPage),
+                }).map((_, i) => (
+                  <li
+                    key={i + 1}
+                    className={`page-item ${currentPage === i + 1 && "active"}`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(i + 1)}
+                    >
+                      {i + 1}
+                    </button>
+                  </li>
+                ))}
+                <li
+                  className={`page-item ${
+                    currentPage === Math.ceil(users.length / usersPerPage) &&
+                    "disabled"
+                  }`}
                 >
-                  {i + 1}
-                </button>
-              ))}
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={
-                  currentPage === Math.ceil(users.length / usersPerPage)
-                }
-              >
-                Next
-              </button>
+                  <button
+                    className="page-link"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                  >
+                    Next
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
