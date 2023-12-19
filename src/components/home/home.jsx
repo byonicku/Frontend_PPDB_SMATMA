@@ -14,7 +14,7 @@ const HomePage = () => {
       ) : (
         <div>
           <h2>Welcome to SMA Atma Budika!</h2>
-          <h2>Server Down, For Saving Money.</h2>
+          {/* <h2>Server Down, For Saving Money.</h2> */}
           <MainContentComponent />
         </div>
       )}
