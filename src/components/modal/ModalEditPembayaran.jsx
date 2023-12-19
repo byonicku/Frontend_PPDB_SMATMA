@@ -43,7 +43,7 @@ const ModalEditPembayaran = ({ data, onClose }) => {
 
   const isFormValid = () => {
     for (const key in formData) {
-      if (formData[key] === "" || formData[key] === null || formData[key] === 0) {
+      if (formData[key] === "" || formData[key] === null) {
         return false;
       }
     }
