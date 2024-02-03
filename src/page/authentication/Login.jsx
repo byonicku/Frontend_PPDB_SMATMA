@@ -13,7 +13,7 @@ import { setToken, setUser } from '../../api/UserHandler';
 const Login = () => {
     const navigate = useNavigate();
     const [showPass, setShowPass] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("Login / Register disabled.");
     const [loading, setLoading] = useState(false);
 
     const loginQuery = useMutation(
@@ -48,20 +48,21 @@ const Login = () => {
     );
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        return;
+        // e.preventDefault();
         
-        try {
-            const formData = new FormData(e.target);    
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
+        // try {
+        //     const formData = new FormData(e.target);    
+        //     const data = {};
+        //     formData.forEach((value, key) => {
+        //         data[key] = value;
+        //     });
 
-            await loginQuery.mutateAsync(data);
-        } catch (error) {
-            setLoading(false);
-            console.log("Error login");
-        }
+        //     await loginQuery.mutateAsync(data);
+        // } catch (error) {
+        //     setLoading(false);
+        //     console.log("Error login");
+        // }
     }
 
     const handleToggleShowPass = () => {

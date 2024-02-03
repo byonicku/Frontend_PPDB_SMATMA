@@ -33,6 +33,5 @@ div#root {
 
 main {
   flex-grow: 1;
-  /* Allow the main content to grow and push the footer to the bottom */
 }
 
