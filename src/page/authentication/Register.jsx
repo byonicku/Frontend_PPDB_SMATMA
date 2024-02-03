@@ -12,7 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 const Register = () => {
     const navigate = useNavigate();
     const [showPass, setShowPass] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("Login / Register disabled.");
     const [loading, setLoading] = useState(false);
 
     const registerMutation = useMutation(
