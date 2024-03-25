@@ -56,8 +56,7 @@ const Login = () => {
             const data = {};
             formData.forEach((value, key) => {
                 data[key] = value;
-            });
-            console.log(data);
+            }); 
             await loginQuery.mutateAsync(data);
         } catch (error) {
             setLoading(false);

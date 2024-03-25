@@ -4,13 +4,13 @@ import axios from "axios";
 // const BASE_URL = '127.0.0.1:8000';
 
 // Production
-export const BASE_URL = 'https://backend-ppdb-smatma.vercel.app/'
+export const BASE_URL = 'backend-ppdb-smatma.vercel.app'
 
 // Local use HTTP
 // export const API_URL = `http://${BASE_URL}/api`;
 
 // Production use HTTPS
-export const API_URL = `https://${BASE_URL}/api`;
+export const API_URL = `https://${BASE_URL}/api/api`;
 
 
 export const getPicture = (name) => {
