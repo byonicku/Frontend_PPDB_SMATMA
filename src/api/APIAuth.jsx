@@ -4,6 +4,7 @@ import { getToken } from "./UserHandler";
 const login = async (data) => {
   try {
     const response = await useAxios.post("/login", data);
+    console.log(response);
     return response.data;
   } catch (error) {
     throw error.response.data;
