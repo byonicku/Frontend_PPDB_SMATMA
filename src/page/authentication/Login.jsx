@@ -13,7 +13,7 @@ import { setToken, setUser } from '../../api/UserHandler';
 const Login = () => {
     const navigate = useNavigate();
     const [showPass, setShowPass] = useState(false);
-    const [error, setError] = useState("Login / Register disabled.");
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const loginQuery = useMutation(

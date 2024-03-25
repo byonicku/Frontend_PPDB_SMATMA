@@ -12,7 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 const Register = () => {
     const navigate = useNavigate();
     const [showPass, setShowPass] = useState(false);
-    const [error, setError] = useState("Login / Register disabled.");
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const registerMutation = useMutation(
@@ -36,27 +36,27 @@ const Register = () => {
     );
 
     const handleSubmit = async (e) => {
-        return;
-        // e.preventDefault();
+        // return;
+        e.preventDefault();
 
-        // try {
-        //     const formData = new FormData(e.target);    
-        //     const data = {};
+        try {
+            const formData = new FormData(e.target);    
+            const data = {};
 
-        //     formData.forEach((value, key) => {
-        //         data[key] = value;
-        //     });
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
 
-        //     if (data.username === 'admin') {
-        //         toast.warning("Username 'admin' tidak boleh dipakai untuk register!");
-        //         return;
-        //     }
+            if (data.username === 'admin') {
+                toast.warning("Username 'admin' tidak boleh dipakai untuk register!");
+                return;
+            }
 
-        //     await registerMutation.mutateAsync(data);
-        // } catch (error) {
-        //     setLoading(false);
-        //     console.log("Error register!");
-        // }
+            await registerMutation.mutateAsync(data);
+        } catch (error) {
+            setLoading(false);
+            console.log("Error register!");
+        }
     }
 
     const handleToggleShowPass = () => {
