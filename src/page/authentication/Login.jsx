@@ -48,21 +48,21 @@ const Login = () => {
     );
 
     const handleSubmit = async (e) => {
-        return;
-        // e.preventDefault();
+        // return;
+        e.preventDefault();
         
-        // try {
-        //     const formData = new FormData(e.target);    
-        //     const data = {};
-        //     formData.forEach((value, key) => {
-        //         data[key] = value;
-        //     });
+        try {
+            const formData = new FormData(e.target);    
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
 
-        //     await loginQuery.mutateAsync(data);
-        // } catch (error) {
-        //     setLoading(false);
-        //     console.log("Error login");
-        // }
+            await loginQuery.mutateAsync(data);
+        } catch (error) {
+            setLoading(false);
+            console.log("Error login");
+        }
     }
 
     const handleToggleShowPass = () => {

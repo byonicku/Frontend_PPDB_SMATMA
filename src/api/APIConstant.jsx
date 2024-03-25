@@ -4,7 +4,7 @@ import axios from "axios";
 // const BASE_URL = '127.0.0.1:8000';
 
 // Production
-const BASE_URL = 'tugasbesarpw2.azurewebsites.net';
+export const BASE_URL = 'https://backend-ppdb-smatma.vercel.app/'
 
 // Local use HTTP
 // export const API_URL = `http://${BASE_URL}/api`;
