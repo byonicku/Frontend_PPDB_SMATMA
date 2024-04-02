@@ -39,8 +39,8 @@ function DataOrangTua() {
       mutationFn: (data) => APIMethod.submitBerkas(data),
       onError: (error) => {
         console.log(error);
-        setError(error.data.message);
-        toast.error(error.data.message);
+        setError(error.data);
+        toast.error(error.data);
         setLoading(false);
       },
       onMutate: () => {
@@ -61,8 +61,8 @@ function DataOrangTua() {
       },
       onError: (error) => {
         console.log(error);
-        setError(error.data.message);
-        toast.error(error.data.message);
+        setError(error.data);
+        toast.error(error.data);
         setLoading(false);
       },
       onMutate: () => {
@@ -72,6 +72,7 @@ function DataOrangTua() {
   );
   
   const handleInputChange = (e) => {
+    console.log(state?.content.formData);
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
