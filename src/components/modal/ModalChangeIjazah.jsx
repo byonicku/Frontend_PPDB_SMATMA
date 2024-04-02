@@ -38,8 +38,8 @@ const ModalChangeIjazah = ({ id, onClose }) => {
       setError(null);
     },
     onError: (error) => {
-      setError(error.data.message);
-      toast.error(error.data.message);
+      setError(error.data);
+      toast.error(error.data);
       setLoading(false);
     },
     onMutate: () => {

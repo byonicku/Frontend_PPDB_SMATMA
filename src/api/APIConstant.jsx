@@ -18,7 +18,7 @@ export const getPicture = (name) => {
     // return `http://${BASE_URL}/storage/user/${name}`;
 
     // Production
-    return `https://${BASE_URL}/storage/user/${name}`;
+    return `${name}`;
   };
 
 const useAxios = axios.create({ baseURL: API_URL });
